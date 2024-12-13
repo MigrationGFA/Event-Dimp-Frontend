@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import flowbite from "flowbite/plugin";
+const flowbite = require("flowbite-react/tailwind");
 
 export default {
   darkMode: "class",
@@ -10,10 +11,18 @@ export default {
       sm: "480px",
       md: "768px",
       lg: "976px",
-      xl: "1024px",
+      xl: "1024px", 
     },
     extend: {
-      animation: ["motion-safe"], // This line doesn't belong here; moved to the correct place below
+      animation: {
+        fadeIn: "fadeIn 1s ease-in-out",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
       colors: {
         primary1: "#FFFFFF",
         primary2: "#000000",
@@ -25,6 +34,7 @@ export default {
         primary8: "#8A8A8B",
         primary9: "#FCFCFCE5",
         primary10: "#9979D1",
+        primary11: "#45FF4B",
         sec1: "#F4F1FF",
         sec2: "#D1D1D6",
         sec3: "#222020",
@@ -36,6 +46,8 @@ export default {
         sec9: "#FFE4AD",
         sec10: "#F8B116",
         sec11: "#374151",
+        sec12: "#E7F9BD",
+        sec13: "#F3ECFF",
         ter1: "#EEE8F7",
         ter2: "#dcfce7",
         ter3: "#7A00A30A",
@@ -60,7 +72,7 @@ export default {
         sans: ["Outfit", "sans"],
         roboto: ["Roboto", "Arial", "sans-serif"],
         limelight: ["Limelight", "cursive"],
-        sen: ["Sen", "sans-serif"], // Fixed typo: "san-serif" → "sans-serif"
+        sen: ["Sen", "sans-serif"],
         Raj: ["Rajdhani", "sans-serif"],
         jak: ["Plus Jakarta Sans", "sans-serif"],
         OnColos: ["Golos", "sans-serif"],
@@ -68,7 +80,9 @@ export default {
         jost: ["Jost", "sans-serif"],
         Marcellus: ["Marcellus", "sans-serif"],
         Urbanist: ["Urbanist", "sans-serif"],
-        Bebas: ["Bebas Neue", "sans-serif;"]
+        Bebas: ["Bebas Neue", "sans-serif"], // Fixed semicolon issue
+        Noto: ["'Noto Sans'", "sans-serif"],
+        Outfit: ["'Outfit'", "sans-serif"],
       },
       fontSize: {
         pS: "16px",
@@ -78,9 +92,6 @@ export default {
         pXXXL: "5rem",
       },
     },
-  },
-  corePlugins: {
-    animation: true, // Enable animations properly
   },
   plugins: [
     flowbite,

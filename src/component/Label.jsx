@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 export const LabelImportant = ({ children, htmlFor }) => {
   return (
-    <label htmlFor={htmlFor} className="block mb-1 font-body">
+    <label htmlFor={htmlFor} className="block mb-1 font-Outfit">
       {children} <span className="text-sec8">*</span>
     </label>
   );

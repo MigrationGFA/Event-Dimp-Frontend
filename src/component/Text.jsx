@@ -11,7 +11,7 @@ export const Text = ({
 }) => {
   return (
     <p
-      className={`text-${size} font-body text-${color} ${weight} ${lineHeight} ${className}`}
+      className={`text-${size} font-Outfit text-${color} ${weight} ${lineHeight} ${className}`}
     >
       {children}
     </p>
@@ -29,7 +29,7 @@ export const TextSpan = ({
 }) => {
   return (
     <span
-      className={`text-${size} font-body text-${color} ${weight} ${lineHeight} ${className}`}
+      className={`text-${size} font-Outfit text-${color} ${weight} ${lineHeight} ${className}`}
     >
       {children}
     </span>
