@@ -57,7 +57,7 @@ export const LongInputWithPlaceholder = forwardRef(
     return (
       <input
         ref={ref}
-        className={`w-full h-12 font-body rounded border text-${size} placeholder-${color} ${weight} ${lineHeight} ${className} border p-2 outline-none`}
+        className={`w-full h-12 font-Outfit rounded border text-${size} placeholder-${color} ${weight} ${lineHeight} ${className} border p-2 outline-none`}
         placeholder={placeholder}
         onKeyDown={handleKeyDown} 
         onChange={onChange}
@@ -83,7 +83,7 @@ export const MediumInputWithPlaceholder = forwardRef(
     return (
       <input
         ref={ref}
-        className={`w-full h-12 font-body rounded border p-2 outline-none ${className} text-${size} placeholder-${color}`}
+        className={`w-full h-12 font-Outfit rounded border p-2 outline-none ${className} text-${size} placeholder-${color}`}
         placeholder={placeholder}
         onKeyDown={handleKeyDown} // Block disallowed characters
         onChange={onChange}
@@ -112,7 +112,7 @@ export const EditTemplateLongInput = forwardRef(
     return (
       <textarea
         ref={ref}
-        className={`w-full h-20 font-body rounded border text-${size} placeholder-${color} ${weight} ${lineHeight} ${className} border p-2 outline-none`}
+        className={`w-full h-20 font-Outfit rounded border text-${size} placeholder-${color} ${weight} ${lineHeight} ${className} border p-2 outline-none`}
         placeholder={placeholder}
         value={value}
         onKeyDown={handleKeyDown} // Block disallowed characters
