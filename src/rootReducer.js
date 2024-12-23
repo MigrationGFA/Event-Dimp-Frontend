@@ -5,6 +5,7 @@ import activeSectionReducer from './features/Template/activeTemplate';
 import mainTemplateReducer from './features/Template/mainTemplate';
 import editTemplateReducer from "./features/Template/editTemplate"
 import ecosystemPlanReducer from "./features/ecosystemPlan"
+import ticketReducer from './features/CreatedTicket';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   activeSection: activeSectionReducer,
   mainTemplate: mainTemplateReducer,
   editTemplate: editTemplateReducer,
-  ecosystemPlan: ecosystemPlanReducer
+  ecosystemPlan: ecosystemPlanReducer,
+  ticket: ticketReducer,
 });
 
 export default rootReducer;

@@ -14,6 +14,7 @@ import SubImg from "../../assets/upgradeSub.svg";
 import MyWebsiteImg from "../../assets/myWebsite.svg";
 import EditTemplateImg from "../../assets/editTemplate2.svg";
 import ProfileImg from "../../assets/profile.svg";
+import BookingImg from "../../assets/CalendarDots.svg";
 import logOutImg from "../../assets/SignOut.svg";
 import NotificationIcon from "../../assets/notification.svg";
 import ThemeSwitchIcon from "../../assets/themeswitch.svg";
@@ -22,7 +23,99 @@ import { useSelector } from "react-redux";
 import api from "../../api/DashboardApi";
 import Avatar from "../../assets/person.png";
 
-const steps = [
+const GeneralSteps = [
+  {
+    label: "Overview",
+    link: "/creator/dashboard/general-overview",
+    icon: OverviewImg,
+  },
+  {
+    label: "Bookings",
+    link: "/creator/dashboard/general-booking",
+    icon: BookingImg,
+  },
+  {
+    label: "Payments",
+    link: "/creator/dashboard/general-payment",
+    icon: PaymentImg,
+  },
+  {
+    label: "Manage Website",
+    link: "/creator/dashboard/general-edit-website",
+    icon: EditTemplateImg,
+  },
+  {
+    label: "Manage Service",
+    link: "/creator/dashboard/general-service",
+    icon: MyWebsiteImg,
+  },
+  {
+    label: "My Websites",
+    link: "/creator/dashboard/my-website",
+    icon: MyWebsiteImg,
+  },
+
+  {
+    label: "Subscription",
+    link: "/creator/dashboard/Subscription",
+    icon: SubImg,
+  },
+  {
+    label: "Profile",
+    link: "/creator/dashboard/profile",
+    icon: ProfileImg,
+  },
+];
+
+const TicketSteps = [
+  {
+    label: "Overview",
+    link: "/creator/dashboard/overview",
+    icon: OverviewImg,
+  },
+  {
+    label: "Attendees",
+    link: "/creator/dashboard/attendees",
+    icon: AttendeeImg,
+  },
+  {
+    label: "Tickets",
+    link: "/creator/dashboard/tickets",
+    icon: GiftImg,
+  },
+  {
+    label: "Tickets Plan",
+    link: "/creator/dashboard/tickets-plan",
+    icon: GiftImg,
+  },
+  {
+    label: "Wallet",
+    link: "/creator/dashboard/wallet",
+    icon: PaymentImg,
+  },
+  {
+    label: "My Website",
+    link: "/creator/dashboard/my-website",
+    icon: MyWebsiteImg,
+  },
+  {
+    label: "Edit Website",
+    link: "/creator/dashboard/edit-website",
+    icon: EditTemplateImg,
+  },
+
+  {
+    label: "Subscription",
+    link: "/creator/dashboard/Subscription",
+    icon: SubImg,
+  },
+  {
+    label: "Profile",
+    link: "/creator/dashboard/profile",
+    icon: ProfileImg,
+  },
+];
+const GiFtSteps = [
   {
     label: "Overview",
     link: "/creator/dashboard/overview",
@@ -75,6 +168,20 @@ const CreatorDashboardLayout = ({ children }) => {
   const userImage = useSelector((state) => state.auth.user?.image);
   const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
   const { accessToken, refreshToken } = useSelector((state) => state.auth);
+  const DashboardSwitch = "Tickets"; // Default to General
+
+  
+  // Dynamically assign steps based on DashboardSwitch
+  let steps;
+  if (DashboardSwitch === "General") {
+    steps = GeneralSteps;
+  } else if (DashboardSwitch === "Tickets") {
+    steps = TicketSteps;
+  } else if (DashboardSwitch === "Gifts") {
+    steps = GiFtSteps;
+  } else {
+    steps = []; // Default to an empty array
+  }
 
   useEffect(
     () => {
