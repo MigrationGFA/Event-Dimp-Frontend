@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Paystack from "@paystack/inline-js";
 import { showToast } from "../ShowToast";
 import { options, cardData } from "../../data/upgradePricing";
-// import AxiosInterceptor from "../../component/AxiosInterceptor";
-// import { setEcosystemPlan } from "../../features/ecosystemPlan";
+import AxiosInterceptor from "../../component/AxiosInterceptor";
+import { setEcosystemPlan } from "../../features/ecosystemPlan";
 
 const Card = ({
   title,
@@ -19,9 +19,9 @@ const Card = ({
   handleSelectChange,
   handlePlanChange,
 }) => {
-  // const userDetails = useSelector(
-  //   (state) => state.auth.user || "UNKNOWN EMAIL"
-  // );
+  const userDetails = useSelector(
+    (state) => state.auth.user || "UNKNOWN EMAIL"
+  );
 
  
   const dispatch = useDispatch();

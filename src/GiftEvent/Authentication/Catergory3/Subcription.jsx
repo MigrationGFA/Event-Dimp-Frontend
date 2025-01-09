@@ -11,9 +11,9 @@ const Subscription = () => {
   const navigate = useNavigate();
   const userStep = useSelector((state) => state.auth?.user?.step);
 
-  useEffect(() => {
-    if (userStep === 5) navigate("/auth/login");
-  }, [userStep, navigate]);
+  // useEffect(() => {
+  //   if (userStep === 5) navigate("/auth/login");
+  // }, [userStep, navigate]);
 
   const [selectedPrices, setSelectedPrices] = useState({
     Lite: "",
@@ -21,6 +21,10 @@ const Subscription = () => {
     Plus: "",
     Extra: "",
   });
+
+  // const [handleSignUpProps, setHandleSignUpProps] = useState(() => {
+  //   handleSignUp(title);
+  // });
 
   const handlePriceUpdate = (prices) => {
     setSelectedPrices(prices);
@@ -57,15 +61,19 @@ const Subscription = () => {
 
         <div className="overflow-x-auto h-screen mt-10">
           <div className="mt-10">
-            <CardContainer setPriceInSubscription={handlePriceUpdate} />
+            <CardContainer
+              setPriceInSubscription={handlePriceUpdate}
+              //handleSignUp={handleSignUp}
+            />
           </div>
 
-          <div className="mt-10 ">
+          <div className="mt-10">
             <Accordion
               litePlan={selectedPrices.Lite}
               proPlan={selectedPrices.Pro}
               plusPlan={selectedPrices.Plus}
               extraPlan={selectedPrices.Extra}
+              //handleSignUp={handleSignUp} 
             />
           </div>
         </div>

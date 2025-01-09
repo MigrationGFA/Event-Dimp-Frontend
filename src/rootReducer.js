@@ -6,13 +6,15 @@ import mainTemplateReducer from './features/Template/mainTemplate';
 import editTemplateReducer from "./features/Template/editTemplate"
 import ecosystemPlanReducer from "./features/ecosystemPlan"
 
+
 const rootReducer = combineReducers({
   auth: authReducer,
   ecosystemDomain: ecosystemDomainReducer, 
   activeSection: activeSectionReducer,
   mainTemplate: mainTemplateReducer,
   editTemplate: editTemplateReducer,
-  ecosystemPlan: ecosystemPlanReducer
+  ecosystemPlan: ecosystemPlanReducer,
+ 
 });
 
 export default rootReducer;

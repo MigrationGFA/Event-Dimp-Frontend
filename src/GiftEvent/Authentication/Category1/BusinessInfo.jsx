@@ -107,8 +107,51 @@ const BusinessInfo = ({ prevStep }) => {
     }
   };
 
+  const determineType = (subcategory) => {
+    const bookingCategories = [
+      "Event Planning",
+      "Catering Services",
+      "DJ Services",
+      "Live Band Services",
+      "Photography Services",
+      "Videography Services",
+      "Florist Services",
+      "Event Rentals",
+      "Lighting and Sound Services",
+      "Event Coordination",
+      "Bartending Services",
+      "Security Services",
+      "Decoration Services",
+      "Venue Booking",
+      "Invitation Design",
+      "Event Staffing",
+      "Childcare Services",
+      "Transportation Services",
+      "Entertainment Booking",
+    ];
+
+    const ticketingCategories = ["Concert", "Show", "Movie Show"];
+
+    const giftCategories = [
+      "Wedding Planning",
+      "Birthday Planning",
+      "Anniversary Planning",
+    ];
+
+    if (bookingCategories.includes(subcategory.trim())) {
+      return "Booking";
+    } else if (ticketingCategories.includes(subcategory.trim())) {
+      return "Ticketing";
+    } else if (giftCategories.includes(subcategory.trim())) {
+      return "Gift";
+    } else {
+      return "";
+    }
+  };
+
   const onSubmit = async (data) => {
     sessionStorage.setItem("subCategory", data.businessSubcategory);
+    const type = determineType(data.businessSubcategory.trim());
     try {
       setIsLoading(true);
       const response = await dispatch(
@@ -122,10 +165,11 @@ const BusinessInfo = ({ prevStep }) => {
           mainObjective: data.businessSubcategory,
           contact: "not available",
           ecosystemDescription: data.businessDescription,
-          address:"nil",
+          address: "nil",
           country: data.country,
           state: data.state,
           localGovernment: data.lga,
+          type: type,
         })
       ).unwrap();
 

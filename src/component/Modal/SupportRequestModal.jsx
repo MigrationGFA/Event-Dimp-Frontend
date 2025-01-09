@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { useSelector } from "react-redux";
 import { ButtonSmallPurple, ButtonSmallWhite } from "../Buttons";
 import { LabelImportant } from "../Label";
-//import api from "../../api/DashboardApi";
+import api from "../../api/DashboardApi";
 import { showToast } from "../ShowToast";
 
 // Validation schema using yup
@@ -32,9 +32,9 @@ const SupportRequestModal = ({
     resolver: yupResolver(schema),
   });
 
-  // const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
-  // const creatorId = useSelector((state) => state.auth.user.creatorId);
-  // const { accessToken, refreshToken } = useSelector((state) => state.auth);
+  const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
+  const creatorId = useSelector((state) => state.auth.user.creatorId);
+  const { accessToken, refreshToken } = useSelector((state) => state.auth);
 
   // Handle form submission
   const onSubmit = async (data) => {

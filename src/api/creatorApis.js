@@ -5,7 +5,7 @@ const API_URL = `${import.meta.env.VITE_API_URL}/creator`;
 
 const PLAIN_API_URL = `${import.meta.env.VITE_API_URL}`;
 
-// Registration API call
+// // Registration API call
 const creatorBusInfo = async ({
   creatorId,
   ecosystemName,
@@ -18,6 +18,7 @@ const creatorBusInfo = async ({
   country,
   state,
   localGovernment,
+  type,
   accessToken,
   refreshToken,
 }) => {
@@ -35,6 +36,7 @@ const creatorBusInfo = async ({
       country,
       state,
       localGovernment,
+      type
     });
     return response;
   } catch (error) {

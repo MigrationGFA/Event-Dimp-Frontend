@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector } from "react-redux";
 import { faFilter, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { Modal } from "flowbite-react";
-// import api from "../../api/DashboardApi";
+import api from "../../api/DashboardApi";
 import { showToast } from "../../component/ShowToast";
 import { useNavigate } from "react-router-dom";
 
@@ -20,13 +20,13 @@ const Notification = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const ITEMS_PER_PAGE = 8;
 
-  // const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
-  // const { accessToken, refreshToken } = useSelector((state) => state.auth);
+  const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
+  const { accessToken, refreshToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getNotification();
   }, [
-    //accessToken, refreshToken, ecosystemDomain
+    accessToken, refreshToken, ecosystemDomain
   ]);
 
   const getNotification = async () => {

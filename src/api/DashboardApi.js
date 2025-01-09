@@ -11,9 +11,8 @@ const creatorBookingDate = async ({
   refreshToken,
   // navigate,
   // dispatch
-  
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken );
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
 
   try {
     const response = await authFetch.get(
@@ -36,10 +35,15 @@ const creatorEarning = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-  dispatch, 
-  navigate
+  dispatch,
+  navigate,
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken, dispatch, navigate);
+  const authFetch = AxiosInterceptor(
+    accessToken,
+    refreshToken,
+    dispatch,
+    navigate
+  );
   try {
     const response = await authFetch.get(
       `${PLAIN_API_URL}/ecosystem-earnings/${ecosystemDomain}`,
@@ -62,9 +66,15 @@ const creatorMonthlyBooking = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-  dispatch, navigate
+  dispatch,
+  navigate,
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken, dispatch, navigate);
+  const authFetch = AxiosInterceptor(
+    accessToken,
+    refreshToken,
+    dispatch,
+    navigate
+  );
   try {
     const response = await authFetch.get(
       `${PLAIN_API_URL}/booking-stats/${ecosystemDomain}`,
@@ -87,9 +97,15 @@ const creatorMonthlyIncome = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-  dispatch, navigate
+  dispatch,
+  navigate,
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken, dispatch, navigate);
+  const authFetch = AxiosInterceptor(
+    accessToken,
+    refreshToken,
+    dispatch,
+    navigate
+  );
   try {
     const response = await authFetch.get(
       `${PLAIN_API_URL}/income-stats/${ecosystemDomain}`,
@@ -112,9 +128,15 @@ const creatorBookingActivities = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-  dispatch, navigate
+  dispatch,
+  navigate,
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken, dispatch, navigate);
+  const authFetch = AxiosInterceptor(
+    accessToken,
+    refreshToken,
+    dispatch,
+    navigate
+  );
   try {
     const response = await authFetch.get(
       `${PLAIN_API_URL}/booking-overview/${ecosystemDomain}`
@@ -136,9 +158,15 @@ const creatorWithdrawHistory = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-   dispatch, navigate
+  dispatch,
+  navigate,
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken,  dispatch, navigate);
+  const authFetch = AxiosInterceptor(
+    accessToken,
+    refreshToken,
+    dispatch,
+    navigate
+  );
   try {
     const response = await authFetch.get(
       `${PLAIN_API_URL}/get-withdrawal-requests/${ecosystemDomain}`
@@ -147,7 +175,7 @@ const creatorWithdrawHistory = async ({
   } catch (error) {
     if (error.isTokenExpired) {
       // Navigate to login page on token expiration
-       navigate("/auth/login");
+      navigate("/auth/login");
     } else {
       throw new Error(
         error.response?.data?.message || "Error fetching Withdraw History "
@@ -160,9 +188,15 @@ const creatorTransactionHistory = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-  dispatch, navigate
+  dispatch,
+  navigate,
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken, dispatch, navigate);
+  const authFetch = AxiosInterceptor(
+    accessToken,
+    refreshToken,
+    dispatch,
+    navigate
+  );
   try {
     const response = await authFetch.get(
       `${PLAIN_API_URL}/transaction-history/${ecosystemDomain}`
@@ -184,9 +218,15 @@ const creatorTodaySales = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-  dispatch, navigate
+  dispatch,
+  navigate,
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken, dispatch, navigate);
+  const authFetch = AxiosInterceptor(
+    accessToken,
+    refreshToken,
+    dispatch,
+    navigate
+  );
   try {
     const response = await authFetch.get(
       `${PLAIN_API_URL}/daily-successful/${ecosystemDomain}`
@@ -209,9 +249,15 @@ const creatorPaymentCharts = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-  dispatch, navigate
+  dispatch,
+  navigate,
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken, dispatch, navigate);
+  const authFetch = AxiosInterceptor(
+    accessToken,
+    refreshToken,
+    dispatch,
+    navigate
+  );
   try {
     const response = await authFetch.get(
       `${PLAIN_API_URL}/total-monthly-sales/${ecosystemDomain}`
@@ -234,9 +280,15 @@ const creatorEcosystemServices = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-  dispatch, navigate
+  dispatch,
+  navigate,
 }) => {
-  const authFetch = AxiosInterceptor(accessToken, refreshToken, dispatch, navigate);
+  const authFetch = AxiosInterceptor(
+    accessToken,
+    refreshToken,
+    dispatch,
+    navigate
+  );
   try {
     const response = await authFetch.get(
       `${PLAIN_API_URL}/get-all-services/${ecosystemDomain}`
@@ -581,7 +633,6 @@ const creatorUpdateProfileImage = async ({
 }) => {
   const authFetch = AxiosInterceptor(accessToken, refreshToken);
 
-  
   const formData = new FormData();
   formData.append("image", image);
   formData.append("creatorId", creatorId);
@@ -658,7 +709,7 @@ const creatorMarkAsReadNotification = async ({
   ecosystemDomain,
   accessToken,
   refreshToken,
-  notificationId
+  notificationId,
 }) => {
   const authFetch = AxiosInterceptor(accessToken, refreshToken);
   try {
@@ -678,7 +729,166 @@ const creatorMarkAsReadNotification = async ({
   }
 };
 
+const creatorCreateTicket = async ({
+  accessToken,
+  refreshToken,
+  name,
+  price,
+  adminType,
+  benefits,
+  shortDescription,
+  currency,
+  creatorId,
+  ecosystemDomain,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.post(`${PLAIN_API_URL}/create/ticket`, {
+      name,
+      price,
+      adminType,
+      benefits,
+      shortDescription,
+      currency,
+      creatorId,
+      ecosystemDomain,
+    });
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error Creating Ticket");
+    }
+  }
+};
+const creatorGetAllTicket = async ({
+  ecosystemDomain,
+  accessToken,
+  refreshToken,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.get(
+      `${PLAIN_API_URL}/all-tickets/${ecosystemDomain}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      // Navigate to login page on token expiration
+      navigate("/auth/login");
+    } else {
+      throw new Error(
+        error.response?.data?.message || "Error fetching Tickets"
+      );
+    }
+  }
+};
+
+const creatorEditTicket = async ({
+  accessToken,
+  refreshToken,
+  ticketId,
+  price,
+  benefits,
+  shortDescription,
+  ecosystemDomain,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.patch(`${PLAIN_API_URL}/edit/ticket`, {
+      ticketId,
+      price,
+      benefits,
+      shortDescription,
+      ecosystemDomain,
+    });
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error Editing Ticket");
+    }
+  }
+};
+
+const creatorDeleteTicket = async ({
+  accessToken,
+  refreshToken,
+  ecosystemDomain,
+  ticketId,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.delete(
+      `${PLAIN_API_URL}/delete/ticket/${ecosystemDomain}/${ticketId}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error Deleting Ticket");
+    }
+  }
+};
+
+
+const creatorGetAllTicketPurchases = async ({
+  ecosystemDomain,
+  accessToken,
+  refreshToken,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.get(
+      `${PLAIN_API_URL}/ticket-purchase-history/${ecosystemDomain}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      // Navigate to login page on token expiration
+      navigate("/auth/login");
+    } else {
+      throw new Error(
+        error.response?.data?.message || "Error fetching Tickets Purchases"
+      );
+    }
+  }
+};
+const creatorGetAllTicketPurchasesSummary = async ({
+  ecosystemDomain,
+  accessToken,
+  refreshToken,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.get(
+      `${PLAIN_API_URL}/ticket-purchase-summary/${ecosystemDomain}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      // Navigate to login page on token expiration
+      navigate("/auth/login");
+    } else {
+      throw new Error(
+        error.response?.data?.message || "Error fetching Tickets Purchases Summary"
+      );
+    }
+  }
+};
+
+
+
 export default {
+  creatorGetAllTicketPurchases,
+  creatorGetAllTicketPurchasesSummary,
+  creatorGetAllTicket,
+  creatorEditTicket,
+  creatorDeleteTicket,
+  creatorCreateTicket,
   creatorBookingDate,
   creatorEarning,
   creatorBookingActivities,
@@ -704,5 +914,5 @@ export default {
   creatorUpdateProfileImage,
   creatorWebsiteDetails,
   creatorNotification,
-  creatorMarkAsReadNotification
+  creatorMarkAsReadNotification,
 };

@@ -65,6 +65,16 @@ const SelectTemplate = ({ nextStep, currentStep }) => {
       </div>
 
       <div className="space-y-8 overflow-y-auto mt-10 h-full pb-36">
+        {/* Blank Template Button */}
+        <div className="justify-end flex">
+          <ButtonSmallPurple
+            width="w-auto"
+            onClick={() => handleSubmit(15)}
+          >
+            Select Blank Template
+          </ButtonSmallPurple>
+        </div>
+        
         {Object.entries(groupedTemplates).map(
           ([category, categoryTemplates]) => (
             <div key={category}>

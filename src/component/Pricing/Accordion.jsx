@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Heading, Text } from "../Text";
 import Tick from "../../assets/tickicon.svg";
 import Cancel from "../../assets/cancelicon.svg";
+import { ButtonSmallPurple } from "../Buttons";
 
 // Card for individual plans
-const PlanCard = ({ title, features }) => {
+const PlanCard = ({ title, features, handleSignUp }) => {
   return (
     <div className="border rounded-lg p-4">
       <Heading level={3} size="lg" weight="font-semibold" className="mb-2">
@@ -39,12 +40,26 @@ const PlanCard = ({ title, features }) => {
           </ul>
         </div>
       ))}
+      {/* <ButtonSmallPurple
+        className="mt-4 w-full lg:w-full"
+        onClick={() => handleSignUp(title)}
+        // disabled={loading}
+      >
+        {/* {loading ? "Processing" : buttonText} */}
+        {/* SignUp
+      </ButtonSmallPurple> */} 
     </div>
   );
 };
 
 // Main Accordion component
-const Accordion = ({ litePlan, proPlan, plusPlan, extraPlan }) => {
+const Accordion = ({
+  litePlan,
+  proPlan,
+  plusPlan,
+  extraPlan,
+  handleSignUp,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleAccordion = () => {
@@ -228,7 +243,9 @@ const Accordion = ({ litePlan, proPlan, plusPlan, extraPlan }) => {
       {isOpen && (
         <div className="p-4 bg-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {subscriptionPlans.map((plan, index) => (
-            <PlanCard key={index} {...plan} />
+            <PlanCard key={index} {...plan} 
+            //handleSignUp={handleSignUp} 
+            />
           ))}
         </div>
       )}
