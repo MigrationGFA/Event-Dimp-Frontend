@@ -11,9 +11,9 @@ const Subscription = () => {
   const navigate = useNavigate();
   const userStep = useSelector((state) => state.auth?.user?.step);
 
-  // useEffect(() => {
-  //   if (userStep === 5) navigate("/auth/login");
-  // }, [userStep, navigate]);
+  useEffect(() => {
+    if (userStep === 5) navigate("/auth/login");
+  }, [userStep, navigate]);
 
   const [selectedPrices, setSelectedPrices] = useState({
     Lite: "",

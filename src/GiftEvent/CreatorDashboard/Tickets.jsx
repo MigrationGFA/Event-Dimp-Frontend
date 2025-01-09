@@ -98,8 +98,8 @@ const Tickets = () => {
       </div>
 
       <div className="mt-10 mx-4 lg:mx-0">
-        <TicketsSummary setTicketsPurchaseSummary={setTicketsPurchaseSummary} />
-        <TicketsHistory />
+        <TicketsSummary ticketsPurchaseSummary={ticketsPurchaseSummary} />
+        <TicketsHistory ticketsPurchase={ticketsPurchase}/>
       </div>
 
       <AddTicketPlanModal

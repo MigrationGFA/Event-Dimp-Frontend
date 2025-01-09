@@ -1,33 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Chart from "react-apexcharts";
 import GiftIcon from "../../../assets/GiftIcon.svg";
 import { Heading } from "../../Text";
 
 const TicketsSummary = ({ ticketsPurchaseSummary }) => {
-  const [ticketsData, setTicketsData] = useState({
-    today: { pending: 0, completed: 0, total: 0 },
-    week: { dailySummary: {}, total: 0 },
-    total: 0,
-  });
-
-  useEffect(() => {
-    if (ticketsPurchaseSummary) {
-      setTicketsData(ticketsPurchaseSummary);
-    }
-  }, [ticketsPurchaseSummary]);
-
-  const ticketsToday = ticketsData.today.total;
-  const totalTickets = ticketsData.total;
-
-  const completedTickets = ticketsData.today.completed;
-  const pendingTickets = ticketsData.today.pending;
-
-  const dailySummary = ticketsData.week.dailySummary;
+  const ticketsToday = ticketsPurchaseSummary?.today?.total || 0;
+  const totalTickets = ticketsPurchaseSummary?.total || 0;
+  const completedTickets = ticketsPurchaseSummary?.today?.completed || 0;
+  const pendingTickets = ticketsPurchaseSummary?.today?.pending || 0;
+  const dailySummary = ticketsPurchaseSummary?.week?.dailySummary || {};
   const abbreviatedDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const weeklyTotal = ticketsPurchaseSummary?.week?.toatl || 0;
+
   const ticketsThisWeekSeries = [
     {
       name: "Tickets",
-      data: abbreviatedDays.map((day) => dailySummary[day] || 0),
+      data: abbreviatedDays.map(
+        (day) => dailySummary[Object.keys(dailySummary).find((d) => d.includes(day))] || 0
+      ),
     },
   ];
 
@@ -75,7 +65,7 @@ const TicketsSummary = ({ ticketsPurchaseSummary }) => {
       "#00BFFF",
       "#00FF7F",
       "#FF7F50",
-      "#FFD700",
+      "#1E90FF",
       "#FF1493",
       "#7FFF00",
     ],
@@ -134,13 +124,13 @@ const TicketsSummary = ({ ticketsPurchaseSummary }) => {
       </div>
 
       {/* Tickets This Week */}
-      <div className="bg-white shadow-lg rounded-lg p-5 grid grid-cols-1 md:grid-cols-2 ">
+      <div className="bg-white shadow-lg rounded-lg p-5 grid grid-cols-1 md:grid-cols-2">
         <div className="items-center justify-between mb-4 space-x-1 space-y-4">
           <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-[#F5F5F5]">
             <img src={GiftIcon} alt="Ticket Icon" className="w-10 h-10" />
           </div>
-          <Heading level={1} className="text-xl font-semibold mt-5 ">
-            {ticketsData.week.total} Tickets This Week
+          <Heading level={1} className="text-xl font-semibold mt-5">
+            {weeklyTotal} Tickets This Week
           </Heading>
         </div>
         <Chart
@@ -151,6 +141,7 @@ const TicketsSummary = ({ ticketsPurchaseSummary }) => {
         />
       </div>
 
+      {/* Total Tickets */}
       <div className="bg-white shadow-lg rounded-lg p-5 flex items-center justify-between">
         <div className="items-center mb-2 space-x-1 justify-between h-full">
           <div className="w-14 h-14 flex items-center justify-center rounded-xl mt-1 bg-[#F5F5F5]">
@@ -160,7 +151,6 @@ const TicketsSummary = ({ ticketsPurchaseSummary }) => {
             Total Tickets
           </Heading>
         </div>
-
         <div className="relative flex items-center justify-center">
           <div className="w-24 h-24 border-[8px] border-gray-300 rounded-full flex items-center justify-center">
             <span className="text-2xl font-bold">{totalTickets}</span>

@@ -120,7 +120,7 @@ const TicketsPlan = () => {
           <Text className="text-lg text-gray-500 mb-4">
             No ticket plans available.
           </Text>
-          <ButtonSmallPurple onClick={handleAddTicketPlan}>
+          <ButtonSmallPurple onClick={handleAddTicketPlan} width="auto">
             Create Your First Ticket Plan
           </ButtonSmallPurple>
         </div>
