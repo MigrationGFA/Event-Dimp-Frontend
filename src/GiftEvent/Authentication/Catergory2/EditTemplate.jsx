@@ -3,22 +3,17 @@ import {
   ButtonSmallPurple,
   ButtonSmallWhite,
 } from "../../../component/Buttons";
-import PlaceHolderImage from "../../../assets/Placeholder.png";
+
 import { useNavigate } from "react-router-dom";
 import { setActiveSection } from "../../../features/Template/activeTemplate";
 import { useSelector, useDispatch } from "react-redux";
-// import BarberMordern from "../../Templates/PersonalCare/Barber/BarberModern";
-// import HairstylistTemplate from "../../Templates/HairstylistTemplate";
-// import Barber2 from "../../Templates/PersonalCare/Barber/Barber2";
-import api from "../../../api/creatorApis";
 import { showToast } from "../../../component/ShowToast";
-// import { barber, HairSalon, MakeUp } from "../../../data/Services";
+import BlankTemplate from "../../Templates/Blank-Template/BlankTemplate";
 import api2 from "../../../api/Template";
 import { setTemplate } from "../../../features/Template/mainTemplate";
 import { LoadingMany, LoadingSmall } from "../../../component/LoadingSpinner";
 import Toastify from "../../../component/Toastify";
 import { AlertDanger } from "../../../component/Alert";
-
 
 const EditTemplate = ({
   nextStep,
@@ -58,58 +53,58 @@ const EditTemplate = ({
     }
   }, [templateId]);
 
-  const handleContinue = async () => {
-    // setLoading(true);
-    // const ecosystemDomain = userDetails.ecosystemDomain || "not available";
-    // let selectedService = barber;
-    // switch (templateId) {
-    //   case 10:
-    //     selectedService = barber;
-    //     break;
-    //   case 11:
-    //     selectedService = HairSalon;
-    //     break;
-    //   case 12:
-    //     selectedService = MakeUp;
-    //     break;
-    //   case 13:
-    //     selectedService = barber;
-    //   case 14:
-    //     selectedService = barber;
-    //     break;
-    //   default:
-    //     selectedService = barber;
-    // }
+  // const handleContinue = async () => {
+  //   // setLoading(true);
+  //   // const ecosystemDomain = userDetails.ecosystemDomain || "not available";
+  //   // let selectedService = barber;
+  //   // switch (templateId) {
+  //   //   case 10:
+  //   //     selectedService = barber;
+  //   //     break;
+  //   //   case 11:
+  //   //     selectedService = HairSalon;
+  //   //     break;
+  //   //   case 12:
+  //   //     selectedService = MakeUp;
+  //   //     break;
+  //   //   case 13:
+  //   //     selectedService = barber;
+  //   //   case 14:
+  //   //     selectedService = barber;
+  //   //     break;
+  //   //   default:
+  //   //     selectedService = barber;
+  //   // }
 
-    // try {
-    //   const response = await api.createServices({
-    //     creatorId,
-    //     ecosystemDomain: ecosystemDomain,
-    //     category: "Personal Care Service",
-    //     subCategory: "Barber Shop",
-    //     prefix: "I will",
-    //     header: "give a nice hair cut of your choice",
-    //     description:
-    //       "The service offers you a nice and profession hair services",
-    //     format: "Onsite",
-    //     currency: "NGN",
-    //     services: selectedService,
-    //     accessToken,
-    //     refreshToken,
-    //     dispatch,
-    //     navigate,
-    //   });
+  //   // try {
+  //   //   const response = await api.createServices({
+  //   //     creatorId,
+  //   //     ecosystemDomain: ecosystemDomain,
+  //   //     category: "Personal Care Service",
+  //   //     subCategory: "Barber Shop",
+  //   //     prefix: "I will",
+  //   //     header: "give a nice hair cut of your choice",
+  //   //     description:
+  //   //       "The service offers you a nice and profession hair services",
+  //   //     format: "Onsite",
+  //   //     currency: "NGN",
+  //   //     services: selectedService,
+  //   //     accessToken,
+  //   //     refreshToken,
+  //   //     dispatch,
+  //   //     navigate,
+  //   //   });
 
-    //   // showToast("Busines  site Submitted Successfully", "success")
-    //   await handleSubmit();
-    //   setLoading(false);
-      navigate("/auth/subscription");
-    // } catch (error) {
-    //   setLoading(false);
-    //   console.log("this is error", error);
-    //   showToast("Error creating template");
-    // }
-  };
+  //   //   // showToast("Busines  site Submitted Successfully", "success")
+  //   //   await handleSubmit();
+  //   //   setLoading(false);
+
+  //   // } catch (error) {
+  //   //   setLoading(false);
+  //   //   console.log("this is error", error);
+  //   //   showToast("Error creating template");
+  //   // }
+  // };
 
   const handleSubmit = async () => {
     // Add template details to FormData
@@ -140,10 +135,11 @@ const EditTemplate = ({
         faqStyles: content.faqStyles,
         footer: content.footer,
       });
-      showToast("Busines  site Submitted Successfully", "success");
+      showToast("Business site Submitted Successfully", "success");
+      navigate("/auth/subscription");
     } catch (error) {
       console.log(error);
-      // showToast(error.response.data.message);
+      showToast(error.response.data.message);
     }
   };
 
@@ -176,21 +172,20 @@ const EditTemplate = ({
   };
 
   const renderTemplate = (templateId) => {
-   
-    // switch (templateId) {
-    //   case 13:
-    //     return <Barber2 userDetails={userDetails} />;
-    //   case 10:
-    //     return <BarberMordern userDetails={userDetails} />;
-    //   case 11:
-    //     return <HairstylistTemplate userDetails={userDetails} />;
-    //   case 12:
-    //     return <MakeupTemplate userDetails={userDetails} />;
-    //   case 14:
-    //     return <BarberPosh userDetails={userDetails} />;
-    //   default:
-    //     return <div>Invalid template</div>;
-    // }
+    switch (templateId) {
+      case 15:
+        return <BlankTemplate userDetails={userDetails} />;
+      //   case 10:
+      //     return <BarberMordern userDetails={userDetails} />;
+      //   case 11:
+      //     return <HairstylistTemplate userDetails={userDetails} />;
+      //   case 12:
+      //     return <MakeupTemplate userDetails={userDetails} />;
+      //   case 14:
+      //     return <BarberPosh userDetails={userDetails} />;
+      default:
+        return <div>Invalid template</div>;
+    }
   };
 
   return (
@@ -205,7 +200,7 @@ const EditTemplate = ({
           </ButtonSmallWhite>
           <ButtonSmallPurple
             width="80px"
-            onClick={handleContinue}
+            onClick={handleSubmit}
             disabled={loading}
           >
             {loading ? "Processing" : "Continue"}
@@ -242,9 +237,7 @@ const EditTemplate = ({
         <LoadingMany />
       ) : (
         <div className=" overflow-y-auto h-full mt-5 ">
-          {/* {renderTemplate(templateId)} */}
-
-          <img src={PlaceHolderImage} alt="" srcset=""  className="w-full h-full"/>
+          {renderTemplate(templateId)}
         </div>
       )}
     </div>

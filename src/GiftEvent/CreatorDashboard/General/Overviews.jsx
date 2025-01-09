@@ -6,7 +6,7 @@ import MyCalendar from "../../../component/dashboard/General/overview/calendar";
 import RecentBookings from "../../../component/dashboard/General/overview/RecentBooking";
 import WebsitesDetails from "../../../component/dashboard/General/overview/WebsiteDetails";
 import RecentActivities from "../../../component/dashboard/General/overview/RecentActivities";
-// import api from "../../../api/DashboardApi";
+import api from "../../../api/DashboardApi";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -31,14 +31,14 @@ const Overview = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // getBookingActivities();
-    // getEarnings();
-    //getMonthlyBooking();
-    // getMonthlyIncome();
+    getBookingActivities();
+    getEarnings();
+    getMonthlyBooking();
+    getMonthlyIncome();
 
-    // if (date) {
-    //   getBookingDetailsByDate(date);
-    // }
+    if (date) {
+      getBookingDetailsByDate(date);
+    }
   }, [date]);
 
   const handleDateChange = (newDate) => {
@@ -51,88 +51,88 @@ const Overview = () => {
     setDate(formattedDate);
   };
 
-//   const getBookingActivities = async () => {
-//     try {
-//       const response = await api.creatorBookingActivities({
-//         ecosystemDomain,
-//         accessToken,
-//         refreshToken,
-//         dispatch,
-//         navigate,
-//       });
-//       setBookingDetails(response.data);
-//     } catch (error) {
-//       console.error("Could not get booking activities:", error);
-//     }
-//   };
+  const getBookingActivities = async () => {
+    try {
+      const response = await api.creatorBookingActivities({
+        ecosystemDomain,
+        accessToken,
+        refreshToken,
+        dispatch,
+        navigate,
+      });
+      setBookingDetails(response.data);
+    } catch (error) {
+      console.error("Could not get booking activities:", error);
+    }
+  };
 
-//   const getEarnings = async () => {
-//     try {
-//       const response = await api.creatorEarning({
-//         ecosystemDomain,
-//         accessToken,
-//         refreshToken,
-//         dispatch,
-//         navigate,
-//       });
-//       setEarnings(response.data);
-//     } catch (error) {
-//       console.error("Could not get earnings:", error);
-//     }
-//   };
+  const getEarnings = async () => {
+    try {
+      const response = await api.creatorEarning({
+        ecosystemDomain,
+        accessToken,
+        refreshToken,
+        dispatch,
+        navigate,
+      });
+      setEarnings(response.data);
+    } catch (error) {
+      console.error("Could not get earnings:", error);
+    }
+  };
 
-//   const getMonthlyBooking = async () => {
-//     try {
-//       const response = await api.creatorMonthlyBooking({
-//         ecosystemDomain,
-//         accessToken,
-//         refreshToken,
-//         dispatch,
-//         navigate,
-//       });
-//       setMonthlyBooking(response.data);
-//     } catch (error) {
-//       console.error("Could not get earnings:", error);
-//     }
-//   };
+  const getMonthlyBooking = async () => {
+    try {
+      const response = await api.creatorMonthlyBooking({
+        ecosystemDomain,
+        accessToken,
+        refreshToken,
+        dispatch,
+        navigate,
+      });
+      setMonthlyBooking(response.data);
+    } catch (error) {
+      console.error("Could not get earnings:", error);
+    }
+  };
 
-//   const getMonthlyIncome = async () => {
-//     try {
-//       const response = await api.creatorMonthlyIncome({
-//         ecosystemDomain,
-//         accessToken,
-//         refreshToken,
-//         dispatch,
-//         navigate,
-//       });
-//       setMonthlyIncome(response.data);
-//     } catch (error) {
-//       console.error("Could not get earnings:", error);
-//     }
-//   };
+  const getMonthlyIncome = async () => {
+    try {
+      const response = await api.creatorMonthlyIncome({
+        ecosystemDomain,
+        accessToken,
+        refreshToken,
+        dispatch,
+        navigate,
+      });
+      setMonthlyIncome(response.data);
+    } catch (error) {
+      console.error("Could not get earnings:", error);
+    }
+  };
 
-//   const getBookingDetailsByDate = async (formattedDate) => {
-//     setIsBookingLoading(true);
-//     try {
-//       const response = await api.creatorBookingDate({
-//         ecosystemDomain,
-//         date: formattedDate,
-//         accessToken,
-//         refreshToken,
-//         dispatch,
-//         navigate,
-//       });
-//       setBookingsByDate(response.data);
-//       setErrorBookingsByDate(null);
-//     } catch (error) {
-//       console.error("Could not get booking details by date:", error);
-//       setErrorBookingsByDate(
-//         error?.response?.data?.message || "No bookings found for this date"
-//       );
-//     } finally {
-//       setIsBookingLoading(false);
-//     }
-//   };
+  const getBookingDetailsByDate = async (formattedDate) => {
+    setIsBookingLoading(true);
+    try {
+      const response = await api.creatorBookingDate({
+        ecosystemDomain,
+        date: formattedDate,
+        accessToken,
+        refreshToken,
+        dispatch,
+        navigate,
+      });
+      setBookingsByDate(response.data);
+      setErrorBookingsByDate(null);
+    } catch (error) {
+      console.error("Could not get booking details by date:", error);
+      setErrorBookingsByDate(
+        error?.response?.data?.message || "No bookings found for this date"
+      );
+    } finally {
+      setIsBookingLoading(false);
+    }
+  };
 
   return (
     <CreatorDashboardLayout>

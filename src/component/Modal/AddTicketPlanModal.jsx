@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LongInputWithPlaceholder } from "../Inputs";
@@ -7,37 +7,53 @@ import { LabelImportant } from "../Label";
 import { ButtonSmallPurple, ButtonSmallWhite } from "../Buttons";
 import SuccessModal from "../../component/Modal/SuccessfulModal";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "flowbite-react";
 
 const schema = yup.object().shape({
-    ticketName: yup.string().required("Ticket Name is required"),
-    ticketDescription: yup.string().required("Ticket Description is required"),
-    ticketPrice: yup
+    name: yup.string().required("Name is required"),
+    price: yup
         .number()
-        .typeError("Ticket Price must be a number")
-        .required("Ticket Price is required"),
-    giftCurrency: yup.string().required("Gift Currency is required"),
+        .typeError("Price must be a number")
+        .required("Price is required"),
+    benefits: yup
+        .array()
+        .of(yup.string().required("Benefit is required"))
+        .min(1, "At least one benefit is required")
+        .max(4, "You can add up to 4 benefits"),
+    shortDescription: yup.string().required("Short Description is required"),
+    currency: yup.string().required("Currency is required"),
 });
 
 const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
     const navigate = useNavigate();
     const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const {
         control,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm({
         resolver: yupResolver(schema),
     });
 
-    const handleSave = (data) => {
-        onSave(data);
-        setIsSuccessModalOpen(true); // Open success modal after saving
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "benefits",
+    });
+
+    const handleSave = async (data) => {
+        setLoading(true);
+        data.adminType = "Ticket";
+        await onSave(data);
+        setLoading(false);
+        setIsSuccessModalOpen(true);
+        reset(); // Reset the form inputs
     };
 
     const handleSuccessModalClose = () => {
         setIsSuccessModalOpen(false);
         onClose();
-        navigate("/creator/dashboard/created-tickets");
     };
 
     if (!isOpen) return null;
@@ -48,10 +64,10 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
                 isOpen={isSuccessModalOpen}
                 onClose={handleSuccessModalClose}
                 message="Your changes have been saved successfully."
-                buttonText="See Your Gift Plans"
+                buttonText="See Your Ticket Plans"
                 onButtonClick={handleSuccessModalClose}
             />
-            <div className="bg-white rounded-lg p-6 lg:w-[650px] shadow-lg overflow-y-auto lg:h-auto h-screen">
+            <div className="bg-white rounded-lg p-6 lg:w-[650px] shadow-lg max-h-[80vh] overflow-y-auto">
                 <div className="flex justify-end">
                     <button
                         onClick={onClose}
@@ -68,13 +84,13 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
                 </div>
 
                 <form onSubmit={handleSubmit(handleSave)} className="space-y-4">
-                    {/* Ticket Name */}
+                    {/* Name */}
                     <div>
                         <LabelImportant className="block text-sm font-medium mb-1">
-                            Ticket Name
+                            Name
                         </LabelImportant>
                         <Controller
-                            name="ticketName"
+                            name="name"
                             control={control}
                             render={({ field }) => (
                                 <LongInputWithPlaceholder
@@ -85,20 +101,18 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
                                 />
                             )}
                         />
-                        {errors.ticketName && (
-                            <p className="text-red-500 text-sm">
-                                {errors.ticketName.message}
-                            </p>
+                        {errors.name && (
+                            <p className="text-red-500 text-sm">{errors.name.message}</p>
                         )}
                     </div>
 
-                    {/* Ticket Description */}
+                    {/* Short Description */}
                     <div>
                         <LabelImportant className="block text-sm font-medium mb-1">
-                            Ticket Description
+                            Short Description
                         </LabelImportant>
                         <Controller
-                            name="ticketDescription"
+                            name="shortDescription"
                             control={control}
                             render={({ field }) => (
                                 <textarea
@@ -109,20 +123,20 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
                                 ></textarea>
                             )}
                         />
-                        {errors.ticketDescription && (
+                        {errors.shortDescription && (
                             <p className="text-red-500 text-sm">
-                                {errors.ticketDescription.message}
+                                {errors.shortDescription.message}
                             </p>
                         )}
                     </div>
 
-                    {/* Ticket Price */}
+                    {/* Price */}
                     <div>
                         <LabelImportant className="block text-sm font-medium mb-1">
-                            Ticket Price
+                            Price
                         </LabelImportant>
                         <Controller
-                            name="ticketPrice"
+                            name="price"
                             control={control}
                             render={({ field }) => (
                                 <LongInputWithPlaceholder
@@ -133,20 +147,18 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
                                 />
                             )}
                         />
-                        {errors.ticketPrice && (
-                            <p className="text-red-500 text-sm">
-                                {errors.ticketPrice.message}
-                            </p>
+                        {errors.price && (
+                            <p className="text-red-500 text-sm">{errors.price.message}</p>
                         )}
                     </div>
 
-                    {/* Gift Currency */}
+                    {/* Currency */}
                     <div>
                         <LabelImportant className="block text-sm font-medium mb-1">
-                            Gift Currency
+                            Currency
                         </LabelImportant>
                         <Controller
-                            name="giftCurrency"
+                            name="currency"
                             control={control}
                             render={({ field }) => (
                                 <select
@@ -161,11 +173,50 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
                                 </select>
                             )}
                         />
-                        {errors.giftCurrency && (
-                            <p className="text-red-500 text-sm">
-                                {errors.giftCurrency.message}
-                            </p>
+                        {errors.currency && (
+                            <p className="text-red-500 text-sm">{errors.currency.message}</p>
                         )}
+                    </div>
+
+                    {/* Benefits */}
+                    <div>
+                        <LabelImportant className="block text-sm font-medium mb-1">
+                            Benefits
+                        </LabelImportant>
+                        {fields.map((item, index) => (
+                            <div key={item.id} className="flex items-center mb-2">
+                                <Controller
+                                    name={`benefits[${index}]`}
+                                    control={control}
+                                    render={({ field }) => (
+                                        <LongInputWithPlaceholder
+                                            type="text"
+                                            className="w-full border rounded-lg px-3 py-2"
+                                            placeholder="Type benefit here..."
+                                            {...field}
+                                        />
+                                    )}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => remove(index)}
+                                    className="ml-2 text-red-500 hover:text-red-700 rounded-full w-5 h-5 bg-ter1"
+                                >
+                                    &times;
+                                </button>
+                            </div>
+                        ))}
+                        {errors.benefits && (
+                            <p className="text-red-500 text-sm">{errors.benefits.message}</p>
+                        )}
+                        <button
+                            type="button"
+                            onClick={() => append("")}
+                            className="mt-2 px-4 rounded-xl py-2 bg-purple-600 text-white"
+                            disabled={fields.length >= 4}
+                        >
+                            Add Benefit
+                        </button>
                     </div>
 
                     {/* Buttons */}
@@ -178,8 +229,11 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
                         </ButtonSmallWhite>
                         <ButtonSmallPurple
                             type="submit"
-                            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                            width="auto"
+                            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center"
+                            disabled={loading}
                         >
+                            {loading && <Spinner size="sm" className="mr-2" />}
                             Save Changes
                         </ButtonSmallPurple>
                     </div>

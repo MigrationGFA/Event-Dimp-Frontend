@@ -10,7 +10,7 @@ import { statesAndLGAs } from "../../data/StateAndLGA";
 import { LabelImportant } from "../../component/Label";
 import { LongInputWithPlaceholder } from "../../component/Inputs";
 import { ButtonSmallPurple } from "../../component/Buttons";
-// import api from "../../api/DashboardApi";
+import api from "../../api/DashboardApi";
 import { useSelector } from "react-redux";
 import { showToast } from "../../component/ShowToast";
 import { Text } from "../../component/Text";
@@ -37,10 +37,10 @@ const CreatorProfile = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  // const creatorId = useSelector((state) => state.auth.user?.creatorId);
-  // const ProfileName = useSelector((state) => state.auth.user?.fullName);
-  // const ProfileEmail = useSelector((state) => state.auth.user?.email);
-  // const { accessToken, refreshToken } = useSelector((state) => state.auth);
+  const creatorId = useSelector((state) => state.auth.user?.creatorId);
+  const ProfileName = useSelector((state) => state.auth.user?.fullName);
+  const ProfileEmail = useSelector((state) => state.auth.user?.email);
+  const { accessToken, refreshToken } = useSelector((state) => state.auth);
 
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState(Object.keys(statesAndLGAs));
@@ -127,7 +127,7 @@ const CreatorProfile = () => {
     fetchProfile();
     setCountries(Country.getAllCountries());
   }, [
-    //setValue, accessToken, refreshToken, creatorId
+    setValue, accessToken, refreshToken, creatorId
   ]);
 
   const handleStateChange = (e) => {
@@ -150,6 +150,8 @@ const CreatorProfile = () => {
       state: data.state,
       localGovernment: data.localGovernment || "",
       country: data.country,
+      accessToken,
+      refreshToken
     };
 
     try {
@@ -187,7 +189,7 @@ const CreatorProfile = () => {
                 alt="Profile"
                 className="w-24 h-24 rounded-full mb-2 object-cover"
               />
-              <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 bg-primary2 bg-opacity-50 rounded-full text-primary1">
+              <span className="absolute inset-0 flex items-center justify-center  opacity-100 bg-primary2 bg-opacity-50 rounded-full text-primary1">
                 Change
               </span>
             </label>
@@ -202,10 +204,10 @@ const CreatorProfile = () => {
 
           <div className="lg:ml-6 text-center lg:text-left">
             <Text className="text-lg font-semibold">{
-            // ProfileName || 
+            ProfileName || 
             "Unknown User"}</Text>
             <Text className="text-ter13">{
-            //ProfileEmail ||
+            ProfileEmail ||
             "example @ example.com" }</Text>
           </div>
         </div>

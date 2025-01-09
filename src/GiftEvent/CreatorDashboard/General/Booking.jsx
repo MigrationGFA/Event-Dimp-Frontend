@@ -5,7 +5,7 @@ import { Heading, Text } from "../../../component/Text";
 import MyCalendar from "../../../component/dashboard/General/overview/calendar";
 import Charts from "../../../component/dashboard/General/overview/Chart";
 import RecentBookings from "../../../component/dashboard/General/overview/RecentBooking";
-// import api from "../../api/DashboardApi";
+import api from "../../../api/DashboardApi";
 import { useSelector } from "react-redux";
 import AllBooking from "../../../component/dashboard/General/booking/AllBooking";
 import { useNavigate } from "react-router-dom";
@@ -31,13 +31,13 @@ const Booking = () => {
   const { accessToken, refreshToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    // getMonthlyBooking();
-    // getMonthlyIncome();
-    // getBookingActivities();
+    getMonthlyBooking();
+    getMonthlyIncome();
+    getBookingActivities();
 
-    // if (date) {
-    //   getBookingDetailsByDate(date);
-    // }
+    if (date) {
+      getBookingDetailsByDate(date);
+    }
   }, [date]);
 
   const handleDateChange = (newDate) => {
@@ -50,73 +50,73 @@ const Booking = () => {
     setDate(formattedDate);
   };
 
-  // const getMonthlyBooking = async () => {
-  //   try {
-  //     const response = await api.creatorMonthlyBooking({
-  //       ecosystemDomain,
-  //       accessToken,
-  //       refreshToken,
-  //       dispatch,
-  //       navigate,
-  //     });
-  //     setMonthlyBooking(response.data);
-  //   } catch (error) {
-  //     console.error("Could not get earnings:", error);
-  //   }
-  // };
+  const getMonthlyBooking = async () => {
+    try {
+      const response = await api.creatorMonthlyBooking({
+        ecosystemDomain,
+        accessToken,
+        refreshToken,
+        dispatch,
+        navigate,
+      });
+      setMonthlyBooking(response.data);
+    } catch (error) {
+      console.error("Could not get earnings:", error);
+    }
+  };
 
-  // const getMonthlyIncome = async () => {
-  //   try {
-  //     const response = await api.creatorMonthlyIncome({
-  //       ecosystemDomain,
-  //       accessToken,
-  //       refreshToken,
-  //       navigate,
-  //       dispatch,
-  //     });
-  //     setMonthlyIncome(response.data);
-  //   } catch (error) {
-  //     console.error("Could not get earnings:", error);
-  //   }
-  // };
+  const getMonthlyIncome = async () => {
+    try {
+      const response = await api.creatorMonthlyIncome({
+        ecosystemDomain,
+        accessToken,
+        refreshToken,
+        navigate,
+        dispatch,
+      });
+      setMonthlyIncome(response.data);
+    } catch (error) {
+      console.error("Could not get earnings:", error);
+    }
+  };
 
-  // const getBookingActivities = async () => {
-  //   try {
-  //     const response = await api.creatorBookingActivities({
-  //       ecosystemDomain,
-  //       accessToken,
-  //       refreshToken,
-  //       navigate,
-  //       dispatch,
-  //     });
-  //     setBookingDetails(response.data);
-  //   } catch (error) {
-  //     console.error("Could not get booking activities:", error);
-  //   }
-  // };
+  const getBookingActivities = async () => {
+    try {
+      const response = await api.creatorBookingActivities({
+        ecosystemDomain,
+        accessToken,
+        refreshToken,
+        navigate,
+        dispatch,
+      });
+      setBookingDetails(response.data);
+    } catch (error) {
+      console.error("Could not get booking activities:", error);
+    }
+  };
 
-  // const getBookingDetailsByDate = async (formattedDate) => {
-  //   setIsBookingLoading(true);
-  //   try {
-  //     const response = await api.creatorBookingDate({
-  //       ecosystemDomain,
-  //       date: formattedDate,
-  //       accessToken,
-  //       refreshToken,
-  //       navigate,
-  //       dispatch,
-  //     });
-  //     setBookingsByDate(response.data);
-  //     setErrorBookingsByDate(null);
-  //   } catch (error) {
-  //     console.error("Could not get booking details by date:", error);
-  //     setErrorBookingsByDate(
-  //       error?.response?.data?.message || "No bookings found for this date"
-  //     );
-  //   } finally {
-  //     setIsBookingLoading(false);
-  //   }
-  // };
+  const getBookingDetailsByDate = async (formattedDate) => {
+    setIsBookingLoading(true);
+    try {
+      const response = await api.creatorBookingDate({
+        ecosystemDomain,
+        date: formattedDate,
+        accessToken,
+        refreshToken,
+        navigate,
+        dispatch,
+      });
+      setBookingsByDate(response.data);
+      setErrorBookingsByDate(null);
+    } catch (error) {
+      console.error("Could not get booking details by date:", error);
+      setErrorBookingsByDate(
+        error?.response?.data?.message || "No bookings found for this date"
+      );
+    } finally {
+      setIsBookingLoading(false);
+    }
+  };
 
   return (
     <CreatorDashboardLayout>

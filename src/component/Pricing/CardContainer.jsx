@@ -22,6 +22,8 @@ const Card = ({
   selectedInterval,
   handleSelectChange,
   handlePlanChange,
+  // handleSignUp: handleSignUpExport,
+  
 }) => {
   const userDetails = useSelector(
     (state) => state.auth.user || "UNKNOWN EMAIL"
@@ -157,7 +159,7 @@ const Card = ({
         if (response.data.planType) {
           dispatch(setEcosystemPlan(response.data.planType));
         }
-        navigate("/creator/dashboard/overview");
+        navigate("/creator/dashboard/general-overview");
       } else {
         showToast("Subscription verification failed. Please try again.");
       }
@@ -180,9 +182,15 @@ const Card = ({
         selectedInterval
       );
     } else {
-      showToast("Invalid plan details");
+      //showToast("Invalid plan details");
     }
   };
+
+  // useEffect(() => {
+  //   if (handleSignUpExport) {
+  //     handleSignUpExport(handleSignUp);
+  //   }
+  // }, [handleSignUpExport]);
 
   return (
     <div className="p-6 border rounded-lg shadow-md flex flex-col justify-between h-[400px]">
@@ -235,11 +243,12 @@ const Card = ({
   );
 };
 
-const CardContainer = ({ setPriceInSubscription }) => {
+const CardContainer = ({ setPriceInSubscription, handleSignUp }) => {
   const [selectedTransaction, setSelectedTransaction] = useState(
     options[0].value
   );
   const [selectedInterval, setSelectedInterval] = useState("Monthly");
+ // const [signUpHandler, setSignUpHandler] = useState(null);
 
   const handleSelectChange = (value) => {
     setSelectedTransaction(value);
@@ -261,6 +270,12 @@ const CardContainer = ({ setPriceInSubscription }) => {
 
     setPriceInSubscription(pricesForSelectedTransaction);
   };
+
+  // useEffect(() => {
+  //   if (handleSignUp) {
+  //     handleSignUp(signUpHandler);
+  //   }
+  // }, [handleSignUp, signUpHandler]);
 
   return (
     <div>
@@ -295,6 +310,7 @@ const CardContainer = ({ setPriceInSubscription }) => {
             selectedInterval={selectedInterval}
             handleSelectChange={handleSelectChange}
             handlePlanChange={handlePlanChange}
+            //handleSignUp={setSignUpHandler}
           />
         ))}
       </div>

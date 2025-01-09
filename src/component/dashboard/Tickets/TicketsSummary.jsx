@@ -1,33 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import GiftIcon from "../../../assets/GiftIcon.svg";
 import { Heading } from "../../Text";
 
-const TicketsSummary = () => {
-  const ticketsToday = 50;
-  const totalTickets = 100;
+const TicketsSummary = ({ ticketsPurchaseSummary }) => {
+  const [ticketsData, setTicketsData] = useState({
+    today: { pending: 0, completed: 0, total: 0 },
+    week: { dailySummary: {}, total: 0 },
+    total: 0,
+  });
 
-  const completedTickets = {
-    monday: 10,
-    tuesday: 8,
-    wednesday: 6,
-    thursday: 7,
-    friday: 5,
-    saturday: 4,
-    sunday: 0,
-    total: 40,
-  };
+  useEffect(() => {
+    if (ticketsPurchaseSummary) {
+      setTicketsData(ticketsPurchaseSummary);
+    }
+  }, [ticketsPurchaseSummary]);
 
-  const pendingTickets = {
-    monday: 2,
-    tuesday: 3,
-    wednesday: 2,
-    thursday: 1,
-    friday: 1,
-    saturday: 1,
-    sunday: 0,
-    total: 10,
-  };
+  const ticketsToday = ticketsData.today.total;
+  const totalTickets = ticketsData.total;
+
+  const completedTickets = ticketsData.today.completed;
+  const pendingTickets = ticketsData.today.pending;
+
+  const dailySummary = ticketsData.week.dailySummary;
+  const abbreviatedDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const ticketsThisWeekSeries = [
+    {
+      name: "Tickets",
+      data: abbreviatedDays.map((day) => dailySummary[day] || 0),
+    },
+  ];
 
   const ticketsTodayOptions = {
     chart: {
@@ -57,11 +59,6 @@ const TicketsSummary = () => {
     },
   };
 
-  const ticketsTodaySeries = [ticketsToday]; // Total tickets today
-
-  // Abbreviate day names
-  const abbreviatedDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
   const ticketsThisWeekOptions = {
     chart: {
       type: "bar",
@@ -79,7 +76,6 @@ const TicketsSummary = () => {
       "#00FF7F",
       "#FF7F50",
       "#FFD700",
-      "#8A2BE2",
       "#FF1493",
       "#7FFF00",
     ],
@@ -98,21 +94,6 @@ const TicketsSummary = () => {
     legend: { show: false },
   };
 
-  const ticketsThisWeekSeries = [
-    {
-      name: "Tickets",
-      data: [
-        completedTickets.monday + pendingTickets.monday,
-        completedTickets.tuesday + pendingTickets.tuesday,
-        completedTickets.wednesday + pendingTickets.wednesday,
-        completedTickets.thursday + pendingTickets.thursday,
-        completedTickets.friday + pendingTickets.friday,
-        completedTickets.saturday + pendingTickets.saturday,
-        completedTickets.sunday + pendingTickets.sunday,
-      ],
-    },
-  ];
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
       {/* Tickets Today */}
@@ -126,12 +107,12 @@ const TicketsSummary = () => {
           </Heading>
           <div className="mt-2 space-y-1">
             <span className="text-sm text-gray-500 flex items-center space-x-1">
-              <span>{completedTickets.total}</span>
+              <span>{completedTickets}</span>
               <div className="bg-green-500 w-4 h-4 rounded-sm"></div>
               <span>Completed</span>
             </span>
             <span className="text-sm text-gray-500 flex items-center space-x-1">
-              <span>{pendingTickets.total}</span>
+              <span>{pendingTickets}</span>
               <div className="bg-yellow-500 w-4 h-4 rounded-sm"></div>
               <span>Pending</span>
             </span>
@@ -141,7 +122,7 @@ const TicketsSummary = () => {
           <div className="relative">
             <Chart
               options={ticketsTodayOptions}
-              series={ticketsTodaySeries}
+              series={[ticketsToday]}
               type="radialBar"
               height={150}
             />
@@ -159,7 +140,7 @@ const TicketsSummary = () => {
             <img src={GiftIcon} alt="Ticket Icon" className="w-10 h-10" />
           </div>
           <Heading level={1} className="text-xl font-semibold mt-5 ">
-            76 Tickets This Week
+            {ticketsData.week.total} Tickets This Week
           </Heading>
         </div>
         <Chart

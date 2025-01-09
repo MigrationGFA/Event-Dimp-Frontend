@@ -31,6 +31,7 @@ export const creatorCreateEcosystem = createAsyncThunk(
       country,
       state,
       localGovernment,
+      type,
       accessToken,
       refreshToken,
     },
@@ -49,6 +50,7 @@ export const creatorCreateEcosystem = createAsyncThunk(
         country,
         state,
         localGovernment,
+        type,
         accessToken,
         refreshToken,
       });

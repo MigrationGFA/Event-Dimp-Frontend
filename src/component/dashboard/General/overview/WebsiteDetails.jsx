@@ -6,7 +6,7 @@ import PriceImg from "../../../../assets/WebsitePrice.png";
 import { Text, Heading } from "../../../../component/Text";
 import { ButtonSmallWhite } from "../../../../component/Buttons";
 import { Link, useNavigate } from "react-router-dom";
-// import api from "../../../api/DashboardApi";
+import api from "../../../../api/DashboardApi";
 import { useSelector } from "react-redux";
 
 

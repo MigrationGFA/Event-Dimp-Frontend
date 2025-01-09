@@ -168,7 +168,7 @@ const CreatorDashboardLayout = ({ children }) => {
   const userImage = useSelector((state) => state.auth.user?.image);
   const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
   const { accessToken, refreshToken } = useSelector((state) => state.auth);
-  const DashboardSwitch = "General"; 
+  const DashboardSwitch = "Tickets"; 
 
   
   // Dynamically assign steps based on DashboardSwitch

@@ -8,7 +8,7 @@ import WithdrawDetails from "../../component/dashboard/payment/WithdrawDetails";
 import PaymentChart from "../../component/dashboard/payment/PaymentChart";
 import PaymentHistories from "../../component/dashboard/payment/PaymentHistories";
 import { ButtonSmallPurple } from "../../component/Buttons";
-// import api from "../../api/DashboardApi";
+import api from "../../api/DashboardApi";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -22,22 +22,22 @@ const Payments = () => {
   const [allTimeBooking, setAllTimeBooking] = useState(null);
   const [paymentCharts, setPaymentCharts] = useState(null);
   const [allBankDetails, setAllBankDetails] = useState(null);
-  // const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
+  const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
 
-  // const plan = useSelector((state) => state.ecosystemPlan.plan);
-  // const { accessToken, refreshToken } = useSelector((state) => state.auth);
+  const plan = useSelector((state) => state.ecosystemPlan.plan);
+  const { accessToken, refreshToken } = useSelector((state) => state.auth);
 
-  // useEffect(() => {
-  //   getEarnings();
-  //   getWithdrawHistory();
-  //   getTransactionHistory();
-  //   getTodaySales();
-  //   getAllTimeBooking();
-  //   getPaymentChart();
-  //   getAllBankDetails();
-  // }, [
-  //   // ecosystemDomain, accessToken, refreshToken
-  // ]);
+  useEffect(() => {
+    getEarnings();
+    getWithdrawHistory();
+    getTransactionHistory();
+    getTodaySales();
+    getAllTimeBooking();
+    getPaymentChart();
+    getAllBankDetails();
+  }, [
+    ecosystemDomain, accessToken, refreshToken
+  ]);
 
   const getEarnings = async () => {
     try {
@@ -147,23 +147,23 @@ const Payments = () => {
     }
   };
 
-  // const getAllBankDetails = async () => {
-  //   try {
-  //     // Ensure tokens exist before making the API call
-  //     if (!accessToken || !refreshToken) return;
+  const getAllBankDetails = async () => {
+    try {
+      // Ensure tokens exist before making the API call
+      if (!accessToken || !refreshToken) return;
 
-  //     const response = await api.creatorAllBankDetails({
-  //       ecosystemDomain,
-  //       accessToken,
-  //       refreshToken,
-  //       dispatch,
-  //       navigate,
-  //     });
-  //     setAllBankDetails(response.data);
-  //   } catch (error) {
-  //     console.error("Could not get all Bank Details:", error);
-  //   }
-  // };
+      const response = await api.creatorAllBankDetails({
+        ecosystemDomain,
+        accessToken,
+        refreshToken,
+        dispatch,
+        navigate,
+      });
+      setAllBankDetails(response.data);
+    } catch (error) {
+      console.error("Could not get all Bank Details:", error);
+    }
+  };
 
   const handleUpgradePlan = () => {
     navigate("/creator/dashboard/Subscription");
@@ -204,13 +204,13 @@ const Payments = () => {
       <div className="lg:flex w-full lg:space-x-4 space-y-5 lg:space-y-0  px-4 lg:px-0">
         <PaymentCard earnings={earnings} todaySales={todaySales} />
         <WithdrawalCard 
-        // allBankDetails={allBankDetails} earnings={earnings} 
+        allBankDetails={allBankDetails} earnings={earnings} 
         />
       </div>
       <div className="lg:flex lg:space-x-5 lg:space-y-0  w-full mt-6 px-4 lg:px-0">
         <WithdrawDetails
-          // allBankDetails={allBankDetails}
-          // getAllBankDetails={getAllBankDetails}
+          allBankDetails={allBankDetails}
+          getAllBankDetails={getAllBankDetails}
         />
         <PaymentChart
           paymentCharts={paymentCharts}

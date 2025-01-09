@@ -3,7 +3,7 @@ import WithdrawDetailImg from "../../../assets/Withdrawdetail.svg";
 import { Heading, Text } from "../../Text";
 import { ButtonSmallPurple, ButtonSmallWhite } from "../../Buttons";
 import { Modal } from "flowbite-react";
-// import api from "../../../api/DashboardApi";
+import api from "../../../api/DashboardApi";
 import { useSelector } from "react-redux";
 import SuccessModal from "../../../component/Modal/SuccessfulModal";
 import { showToast } from "../../ShowToast";
@@ -11,7 +11,7 @@ import { LongInputWithPlaceholder } from "../../Inputs";
 import { LabelImportant } from "../../Label";
 
 const WithdrawDetails = ({ allBankDetails, getAllBankDetails }) => {
-  // const { accessToken, refreshToken } = useSelector((state) => state.auth);
+  const { accessToken, refreshToken } = useSelector((state) => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [allBanks, setAllBanks] = useState([]);
   const [selectedBank, setSelectedBank] = useState("");
@@ -22,19 +22,19 @@ const WithdrawDetails = ({ allBankDetails, getAllBankDetails }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [verifyError, setVerifyError] = useState("");
-  // const creatorId = useSelector((state) => state.auth.user.creatorId);
-  // const ecosystemDomain =
-  // useSelector((state) => state.ecosystemDomain.domain
-  // );
+  const creatorId = useSelector((state) => state.auth.user.creatorId);
+  const ecosystemDomain =
+  useSelector((state) => state.ecosystemDomain.domain
+  );
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
-  // useEffect(() => {
-  //   if (accessToken && refreshToken) {
-  //     getAllBanks();
-  //   }
-  // }, [
-  //   accessToken, refreshToken
-  // ]);
+  useEffect(() => {
+    if (accessToken && refreshToken) {
+      getAllBanks();
+    }
+  }, [
+    accessToken, refreshToken
+  ]);
 
   const getAllBanks = async () => {
     try {

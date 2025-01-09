@@ -4,7 +4,7 @@ import WithdrawalImg from "../../../assets/Withdrawallogo.svg";
 import TotalBalanceImg from "../../../assets/TotalBalance.svg";
 import { Text, Heading } from "../../Text";
 import SuccessModal from "../../../component/Modal/SuccessfulModal";
-// import api from "../../../api/DashboardApi";
+import api from "../../../api/DashboardApi";
 import { useSelector } from "react-redux";
 import { LongInputWithPlaceholder } from "../../Inputs";
 import { ButtonSmallPurple, ButtonSmallWhite } from "../../Buttons";
@@ -12,9 +12,9 @@ import { AlertDanger } from "../../Alert";
 
 const WithdrawalModal = ({ allBankDetails, earnings }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const creatorId = useSelector((state) => state.auth.user.creatorId);
-  // const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
-  // const { accessToken, refreshToken } = useSelector((state) => state.auth);
+  const creatorId = useSelector((state) => state.auth.user.creatorId);
+  const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
+  const { accessToken, refreshToken } = useSelector((state) => state.auth);
   const [ecosystemEarning, setEcosystemEarning] = useState(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [error, setError] = useState("");
@@ -24,21 +24,21 @@ const WithdrawalModal = ({ allBankDetails, earnings }) => {
   const [loading, setLoading] = useState(false);
   const [percentage, setPercentage] = useState(null);
 
-  // const userPlan = useSelector((state) => state.auth.user?.plan || "Lite");
+  const userPlan = useSelector((state) => state.auth.user?.plan || "Lite");
 
-  // useEffect(() => {
-  //   if (userPlan === "Lite") {
-  //     setPercentage(7.5);
-  //   } else if (userPlan === "Plus") {
-  //     setPercentage(4);
-  //   } else if (userPlan === "Pro") {
-  //     setPercentage(3);
-  //   } else {
-  //     setPercentage(2);
-  //   }
-  // }, [
-  //   userPlan
-  // ]);
+  useEffect(() => {
+    if (userPlan === "Lite") {
+      setPercentage(7.5);
+    } else if (userPlan === "Plus") {
+      setPercentage(4);
+    } else if (userPlan === "Pro") {
+      setPercentage(3);
+    } else {
+      setPercentage(2);
+    }
+  }, [
+    userPlan
+  ]);
 
   const handleAccountSelect = (account) => {
     setSelectedAccount(account.id);
@@ -142,7 +142,7 @@ const WithdrawalModal = ({ allBankDetails, earnings }) => {
                   Withdrawal
                 </Heading>
               </div>
-              {/* <div>
+              <div>
                 <AlertDanger
                   title="Curent Plan"
                   message={`You are curently on ${
@@ -151,7 +151,7 @@ const WithdrawalModal = ({ allBankDetails, earnings }) => {
             involve deducting ${percentage ? percentage : "0"}% of your total
             earning.`}
                 />
-              </div> */}
+              </div>
               <div className="lg:grid grid-cols-2 gap-4 space-y-4 lg:space-y-0">
                 <div className="bg-sec1 p-4 rounded-lg flex items-center">
                   <div className="bg-primary1 w-12 h-12 items-center justify-center flex rounded-full">

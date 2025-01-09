@@ -11,21 +11,21 @@ const templates = [
     title: "Event Planning",
     description: "Description for Event Planner",
     image: BarberImage1,
-    category: "Event Planning",
+    category: "Event Planner",
   },
   {
     id: 2,
     title: "Event Planning",
     description: "Description for Event Planner",
     image: BarberImage4,
-    category: "Event Planning",
+    category: "Event Planner",
   },
   {
     id: 3,
     title: "Event Planning",
     description: "Event Planner",
     image: BarberImage3,
-    category: "Event Planning",
+    category: "Event Planner",
   },
  
 ];
