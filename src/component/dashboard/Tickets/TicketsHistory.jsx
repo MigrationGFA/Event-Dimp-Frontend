@@ -1,6 +1,6 @@
 import React from "react";
 
-const TicketsHistory = () => {
+const TicketsHistory = ({ticketsPurchase}) => {
   const gifts = [
     { id: "#001", name: "H.G.", amount: "₦10,000", date: "26/11/2024", time: "10:30AM", status: "Confirmed", plan: "Gold" },
     { id: "#002", name: "Double Zork", amount: "₦20,000", date: "26/11/2024", time: "06:00PM", status: "Pending", plan: "Bronze" },

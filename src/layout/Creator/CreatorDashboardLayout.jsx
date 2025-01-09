@@ -10,7 +10,7 @@ import OverviewImg from "../../assets/overview.svg";
 import AttendeeImg from "../../assets/Attendee.svg";
 import GiftImg from "../../assets/Gift.svg";
 import PaymentImg from "../../assets/wallet.png";
-import SubImg from "../../assets/upgradeSub.svg";
+import SubImg from "../../assets/UpgradeSub.svg";
 import MyWebsiteImg from "../../assets/myWebsite.svg";
 import EditTemplateImg from "../../assets/editTemplate2.svg";
 import ProfileImg from "../../assets/profile.svg";
