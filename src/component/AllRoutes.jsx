@@ -35,6 +35,9 @@ import ServiceList from "./MyWebsite/ServiceList";
 import Tickets from "../GiftEvent/CreatorDashboard/Tickets";
 import TicketsPlan from "../GiftEvent/CreatorDashboard/TicketPlan";
 import UserLogin from "../GiftEvent/Authentication/RegisterUser/UserLogin";
+import BusinessInfo from "../GiftEvent/Authentication/AuthForNewWebsite/Category1/BusinessInfo";
+import NewTemplate from "../GiftEvent/Authentication/AuthForNewWebsite/Catergory2/Template";
+import NewSubscription from "../GiftEvent/Authentication/AuthForNewWebsite/Catergory3/Subcription";
 
 //import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -58,6 +61,11 @@ const AllRoutes = () => {
       <Route path="/auth/select-website-design" element={<Template />} />
       <Route path="/auth/subscription" element={<Subscription />} />
 
+
+      {/* Creator Auth for new Website*/}
+      <Route path="/auth/personal-Information/new" element={<BusinessInfo />} />
+      <Route path="/auth/select-website-design/new" element={<NewTemplate />} />
+      <Route path="/auth/subscription/new" element={<NewSubscription />} />
       {/* Creator Dashboard General*/}
       <Route path="/creator/dashboard/general-overview" element={<GeneralOverview  />} />
       <Route path="/creator/dashboard/general-booking" element={<GeneralBooking  />} />

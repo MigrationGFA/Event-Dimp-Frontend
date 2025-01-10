@@ -13,6 +13,7 @@ import { creatorLogin } from "../../features/authentication";
 import { showToast } from "../ShowToast";
 import { setEcosystemDomain } from "../../features/ecosystemDomain";
 import { setEcosystemPlan } from "../../features/ecosystemPlan";
+import { setEcosystemType } from "../../features/ecosystemType";
 
 const schema = yup.object().shape({
   email: yup
@@ -69,6 +70,11 @@ const LoginModal = ({
         if (resultAction.payload.user.ecosystemDomain) {
           dispatch(
             setEcosystemDomain(resultAction.payload.user.ecosystemDomain)
+          );
+        }
+        if (resultAction.payload.user.ecosystemType) {
+          dispatch(
+            setEcosystemType(resultAction.payload.user.ecosystemType)
           );
         }
 

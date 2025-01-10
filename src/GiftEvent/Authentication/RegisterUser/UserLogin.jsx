@@ -13,6 +13,7 @@ import { creatorLogin } from "../../../features/authentication";
 import { showToast } from "../../../component/ShowToast";
 import { setEcosystemDomain } from "../../../features/ecosystemDomain";
 import { setEcosystemPlan } from "../../../features/ecosystemPlan";
+import { setEcosystemType } from "../../../features/ecosystemType";
 
 // Define the Yup validation schema
 const schema = yup.object().shape({
@@ -62,6 +63,11 @@ const UserLogin = () => {
         if (resultAction.payload.user.ecosystemDomain) {
           dispatch(
             setEcosystemDomain(resultAction.payload.user.ecosystemDomain)
+          );
+        }
+        if (resultAction.payload.user.ecosystemType) {
+          dispatch(
+            setEcosystemType(resultAction.payload.user.ecosystemType)
           );
         }
         if (resultAction.payload.user.plan) {

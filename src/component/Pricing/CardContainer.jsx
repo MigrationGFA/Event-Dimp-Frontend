@@ -11,6 +11,7 @@ import api from "../../api/Subscription";
 import api2 from "../../api/Template";
 import { setEcosystemDomain } from "../../features/ecosystemDomain";
 import { setEcosystemPlan } from "../../features/ecosystemPlan";
+import { setEcosystemType } from "../../features/ecosystemType";
 import AxiosInterceptor from "../../component/AxiosInterceptor";
 
 const Card = ({
@@ -104,6 +105,9 @@ const Card = ({
             if (response.data.ecosystemDomain) {
               dispatch(setEcosystemDomain(response.data.ecosystemDomain));
             }
+            if (response.data.ecosystemType) {
+              dispatch(setEcosystemType(response.data.ecosystemType));
+            }
             if (response.data.planType) {
               dispatch(setEcosystemPlan(response.data.planType));
             }
@@ -141,12 +145,13 @@ const Card = ({
       return;
     }
     try {
+      const ecosystemName = sessionStorage.getItem("ecosystemName");
       const response = await api.creatorFreeSubscribtion({
         creatorId: parseFloat(userDetails.creatorId),
         planType: title,
         sizeLimit: selectedTransaction,
         interval: "Monthly",
-        ecosystemDomain: userDetailEco.ecosystemDomain,
+        ecosystemDomain: ecosystemName,
         accessToken,
         refreshToken,
       });
@@ -156,9 +161,14 @@ const Card = ({
         if (response.data.ecosystemDomain) {
           dispatch(setEcosystemDomain(response.data.ecosystemDomain));
         }
+        if (response.data.ecosystemType) {
+          dispatch(setEcosystemType(response.data.ecosystemType));
+        }
         if (response.data.planType) {
           dispatch(setEcosystemPlan(response.data.planType));
         }
+        
+        sessionStorage.removeItem("ecosystemName")
         navigate("/creator/dashboard/general-overview");
       } else {
         showToast("Subscription verification failed. Please try again.");

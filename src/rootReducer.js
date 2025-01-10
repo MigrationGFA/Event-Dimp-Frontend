@@ -3,8 +3,10 @@ import authReducer from './features/authentication';
 import ecosystemDomainReducer from './features/ecosystemDomain';
 import activeSectionReducer from './features/Template/activeTemplate';
 import mainTemplateReducer from './features/Template/mainTemplate';
-import editTemplateReducer from "./features/Template/editTemplate"
-import ecosystemPlanReducer from "./features/ecosystemPlan"
+import editTemplateReducer from "./features/Template/editTemplate";
+import ecosystemPlanReducer from "./features/ecosystemPlan";
+import ecosystemTypeReducer from "./features/ecosystemType";
+
 
 
 const rootReducer = combineReducers({
@@ -14,6 +16,7 @@ const rootReducer = combineReducers({
   mainTemplate: mainTemplateReducer,
   editTemplate: editTemplateReducer,
   ecosystemPlan: ecosystemPlanReducer,
+  ecosystemType: ecosystemTypeReducer,
  
 });
 

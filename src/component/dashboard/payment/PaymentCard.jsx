@@ -2,7 +2,9 @@ import React from "react";
 import TotalBalanceImg from "../../../assets/TotalBalance.svg";
 import TotalTodayImg from "../../../assets/todaySale.svg";
 import { Text } from "../../Text";
+import { useSelector } from "react-redux";
 const PaymentCard = ({earnings, todaySales}) => {
+  const ecosystemType = useSelector((state) => state.ecosystemType.type);
 
   return (
     <div className="lg:w-8/12 ">
@@ -30,7 +32,7 @@ const PaymentCard = ({earnings, todaySales}) => {
           </div>
           <div className="ml-6">
             <Text size="[16px]" className=" text-ter4 mb-2">
-              Gifts Today
+              {ecosystemType} Today
             </Text>
             <Text
               size="[28px]"
