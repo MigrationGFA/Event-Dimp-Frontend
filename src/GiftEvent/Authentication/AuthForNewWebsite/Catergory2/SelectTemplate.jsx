@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from "react";
-import templates from "../../../component/Templates";
-import { Heading, Text } from "../../../component/Text";
-import { ButtonSmallPurple } from "../../../component/Buttons";
+import templates from "../../../../component/Templates";
+import { Heading, Text } from "../../../../component/Text";
+import { ButtonSmallPurple } from "../../../../component/Buttons";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -26,10 +26,8 @@ const SelectTemplate = ({ nextStep, currentStep }) => {
   useEffect(() => {
     const storedSubCategory = sessionStorage.getItem("subCategory")?.trim();
     setSubCategory(storedSubCategory || "Event Planning");
-    if (userStep === 5 || userStep === 4 || userStep === 3)
-      navigate("/auth/login");
+   
   }, [userStep,
-     navigate
     ]);
 
 

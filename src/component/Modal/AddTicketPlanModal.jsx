@@ -9,6 +9,17 @@ import SuccessModal from "../../component/Modal/SuccessfulModal";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "flowbite-react";
 
+const TICKET_TYPES = [
+    "Bronze", "Silver", "Gold", "Platinum", "VIP", "Regular", "Economy", "Premium Economy", 
+    "Business Class", "First Class", "Table of 2", "Table of 4", "Table of 6", "Table of 8", 
+    "Couple Pass", "Family Pass", "Group Pass", "Early Bird", "Late Entry", "All Access", 
+    "Standard", "Deluxe", "Executive", "Corporate", "Student", "Child", "Senior Citizen", 
+    "Season Pass", "One-Day Pass", "Weekend Pass", "Festival Pass", "Monthly Membership", 
+    "Annual Membership", "Front Row", "Balcony", "General Admission", "Standing", "Seated", 
+    "Backstage", "Meet and Greet", "Exclusive", "Reserved", "Unreserved", "Overnight", 
+    "Weekend Only", "Others"
+];
+
 const schema = yup.object().shape({
     name: yup.string().required("Name is required"),
     price: yup
@@ -22,6 +33,11 @@ const schema = yup.object().shape({
         .max(4, "You can add up to 4 benefits"),
     shortDescription: yup.string().required("Short Description is required"),
     currency: yup.string().required("Currency is required"),
+    ticketType: yup.string().required("Ticket Type is required"),
+    otherTicketType: yup.string().when('ticketType', {
+        is: 'Others',
+        then: yup.string().required('Please specify your ticket type')
+    })
 });
 
 const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
@@ -32,6 +48,7 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
         control,
         handleSubmit,
         formState: { errors },
+        watch,
         reset,
     } = useForm({
         resolver: yupResolver(schema),
@@ -41,6 +58,8 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
         control,
         name: "benefits",
     });
+
+    const ticketType = watch("ticketType");
 
     const handleSave = async (data) => {
         setLoading(true);
@@ -177,6 +196,55 @@ const AddTicketPlanModal = ({ isOpen, onClose, onSave }) => {
                             <p className="text-red-500 text-sm">{errors.currency.message}</p>
                         )}
                     </div>
+
+                    {/* Ticket Type */}
+                    <div>
+                        <LabelImportant className="block text-sm font-medium mb-1">
+                            Ticket Type
+                        </LabelImportant>
+                        <Controller
+                            name="ticketType"
+                            control={control}
+                            render={({ field }) => (
+                                <select
+                                    className="w-full border rounded-lg px-3 py-2"
+                                    {...field}
+                                >
+                                    <option value="">Select your ticket type</option>
+                                    {TICKET_TYPES.map((type) => (
+                                        <option key={type} value={type}>{type}</option>
+                                    ))}
+                                </select>
+                            )}
+                        />
+                        {errors.ticketType && (
+                            <p className="text-red-500 text-sm">{errors.ticketType.message}</p>
+                        )}
+                    </div>
+
+                    {/* Other Ticket Type */}
+                    {ticketType === "Others" && (
+                        <div>
+                            <LabelImportant className="block text-sm font-medium mb-1">
+                                Specify Ticket Type
+                            </LabelImportant>
+                            <Controller
+                                name="otherTicketType"
+                                control={control}
+                                render={({ field }) => (
+                                    <LongInputWithPlaceholder
+                                        type="text"
+                                        className="w-full border rounded-lg px-3 py-2"
+                                        placeholder="Type here..."
+                                        {...field}
+                                    />
+                                )}
+                            />
+                            {errors.otherTicketType && (
+                                <p className="text-red-500 text-sm">{errors.otherTicketType.message}</p>
+                            )}
+                        </div>
+                    )}
 
                     {/* Benefits */}
                     <div>

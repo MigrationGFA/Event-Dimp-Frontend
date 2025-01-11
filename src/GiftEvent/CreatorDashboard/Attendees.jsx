@@ -24,11 +24,11 @@ const Attendees = () => {
           className="w-32 pr-6 right-0 bottom-0 absolute"
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mx-4 lg:mx-0 mt-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mx-4 lg:mx-0 mt-6">
         <EventAttendance />
         <FoodAndDrinksPreferences />
         <RecentlyRegistered />
-      </div>
+      </div> */}
 
       <div className="mx-4 lg:mx-0">
         <AttendeeManagement />

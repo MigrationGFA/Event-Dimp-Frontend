@@ -3,12 +3,12 @@ import TotalTodayImg from "../../assets/Withdrawallogo.svg";
 import { Text } from "../Text";
 import { useNavigate } from "react-router-dom";
 
-const MyWebsiteCards = () => {
+const MyWebsiteCards = ({websites}) => {
   const navigate = useNavigate();
-  const totalWebsites = 50;
+  const totalWebsites = websites?.ecosystems?.length;
 
   const handleCreateWebsite = () => {
-    navigate("/auth/select-website-design");
+    navigate("/auth/personal-Information/new");
   };
   const handleAllWebsite = () => {
     navigate("/creator/dashboard/All-website");

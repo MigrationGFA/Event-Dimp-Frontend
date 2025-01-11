@@ -857,6 +857,28 @@ const creatorGetAllTicketPurchases = async ({
     }
   }
 };
+const creatorGetRecentEcosystem = async ({
+  creatorId,
+  accessToken,
+  refreshToken,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.get(
+      `${PLAIN_API_URL}/get-recent-ecosystems/${creatorId}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      // Navigate to login page on token expiration
+      navigate("/auth/login");
+    } else {
+      throw new Error(
+        error.response?.data?.message || "Error fetching Recent Ecosystem"
+      );
+    }
+  }
+};
 const creatorGetAllTicketPurchasesSummary = async ({
   ecosystemDomain,
   accessToken,
@@ -885,6 +907,7 @@ const creatorGetAllTicketPurchasesSummary = async ({
 export default {
   creatorGetAllTicketPurchases,
   creatorGetAllTicketPurchasesSummary,
+  creatorGetRecentEcosystem,
   creatorGetAllTicket,
   creatorEditTicket,
   creatorDeleteTicket,

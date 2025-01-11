@@ -37,8 +37,8 @@ const Tickets = () => {
             accessToken,
             refreshToken,
           });
-          setTicketsPurchase(response.data);
-          console.log(response.data);
+          setTicketsPurchase(response.data.purchases);
+          
         } catch (error) {
           console.error("Could not get tickets:", error);
         } finally {
@@ -54,7 +54,7 @@ const Tickets = () => {
             refreshToken,
           });
           setTicketsPurchaseSummary(response.data);
-          console.log(response.data);
+          
         } catch (error) {
           console.error("Could not get tickets:", error);
         } finally {

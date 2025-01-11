@@ -22,6 +22,8 @@ import { Heading } from "../../component/Text";
 import { useSelector } from "react-redux";
 import api from "../../api/DashboardApi";
 import Avatar from "../../assets/person.png";
+import { setEcosystemType } from "../../features/ecosystemType";
+import { setEcosystemDomain } from "../../features/ecosystemDomain";
 
 const GeneralSteps = [
   {
@@ -167,30 +169,58 @@ const CreatorDashboardLayout = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const userImage = useSelector((state) => state.auth.user?.image);
   const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
+  const ecosystemType = useSelector((state) => state.ecosystemType.type);
+  const creatorId = useSelector((state) => state.auth.user?.creatorId);
   const { accessToken, refreshToken } = useSelector((state) => state.auth);
-  const DashboardSwitch = "Tickets"; 
+  const DashboardSwitch = ecosystemType;
+  const [websites, setWebsites] = useState([]);
+  const [dashboards, setDashboards] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  
   // Dynamically assign steps based on DashboardSwitch
   let steps;
-  if (DashboardSwitch === "General") {
+  if (DashboardSwitch === "Booking") {
     steps = GeneralSteps;
-  } else if (DashboardSwitch === "Tickets") {
+  } else if (DashboardSwitch === "Ticketing") {
     steps = TicketSteps;
-  } else if (DashboardSwitch === "Gifts") {
+  } else if (DashboardSwitch === "Gift") {
     steps = GiFtSteps;
   } else {
-    steps = []; // Default to an empty array
+    steps = GeneralSteps;
   }
 
-  useEffect(
-    () => {
-      getNotification();
-    },
-    [
-      accessToken, refreshToken, ecosystemDomain
-    ]
-  );
+  useEffect(() => {
+    getNotification();
+    getAllWebsites();
+  }, [accessToken, refreshToken, ecosystemDomain]);
+
+  const getAllWebsites = async () => {
+    setLoading(true);
+    try {
+      const response = await api.creatorGetRecentEcosystem({
+        creatorId,
+        accessToken,
+        refreshToken,
+      });
+  
+      const ecosystems = response.data.ecosystems || [];
+      setWebsites(ecosystems);
+  
+      // Extract both ecosystemName and type
+      const dashboardData = ecosystems.map((website) => ({
+        name: website.ecosystemName,
+        type: website.type,
+        ecosystemDomain: website.ecosystemDomain,
+      }));
+      setDashboards(dashboardData);
+  
+    } catch (error) {
+      console.error("Could not get websites:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   const getNotification = async () => {
     try {
@@ -267,17 +297,13 @@ const CreatorDashboardLayout = ({ children }) => {
     return "just now";
   };
 
-  const handleDashboardSwitch = (dashboard) => {
-    console.log(`Switched to: ${dashboard}`);
+  const handleDashboardSwitch = (dashboard, type, ecosystemDomain) => {
+    console.log(`Switched to: ${dashboard}, Type: ${type}, ecosystemDomain: ${ecosystemDomain}`);
     setIsDropdownOpen(false);
+    dispatch(setEcosystemDomain(ecosystemDomain)); 
+    dispatch(setEcosystemType(type));
   };
-
-  const dashboards = [
-    "Admin Dashboard",
-    "User Dashboard",
-    "Analytics Dashboard",
-  ];
-
+  
   return (
     <div className="flex h-screen overflow-hidden bg-primary1 font-body">
       {/* Sidebar */}
@@ -419,10 +445,12 @@ const CreatorDashboardLayout = ({ children }) => {
                     {dashboards.map((dashboard, index) => (
                       <button
                         key={index}
-                        onClick={() => handleDashboardSwitch(dashboard)}
+                        onClick={() =>
+                          handleDashboardSwitch(dashboard.name, dashboard.type, dashboard.ecosystemDomain)
+                        }
                         className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
                       >
-                        {dashboard}
+                        {dashboard.name} ({dashboard.type})
                       </button>
                     ))}
                   </div>

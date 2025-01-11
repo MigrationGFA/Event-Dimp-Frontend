@@ -1,8 +1,10 @@
 import React from "react";
 import Chart from "react-apexcharts";
 import { Heading, Text } from "../../Text";
+import { useSelector } from "react-redux";
 
 const PaymentChart = ({ paymentCharts, allTimeBooking }) => {
+  const ecosystemType = useSelector((state) => state.ecosystemType.type);
   const currentYear = new Date().getFullYear();
 
   // Destructure data from allTimeBooking
@@ -160,7 +162,7 @@ const PaymentChart = ({ paymentCharts, allTimeBooking }) => {
     <div className="lg:w-8/12 lg:flex lg:space-x-4 space-y-4 lg:space-y-0 mt-6 lg:mt-0">
       <div className="bg-primary1 p-6 rounded-lg shadow lg:w-1/2">
         <Heading level={2} weight="font-semibold" size="[18px]">
-          Gifts this Week
+          {ecosystemType} this Week
         </Heading>
         <Chart
           options={lineChartOptions}
@@ -182,7 +184,7 @@ const PaymentChart = ({ paymentCharts, allTimeBooking }) => {
         <Text size="4xl" weight="font-bold" className="text-primary10">
           {allTimeTotalBookings}
         </Text>
-        <Text size="sm">All time Gifts</Text>
+        <Text size="sm">All time {ecosystemType} </Text>
         <Chart
           options={barChartOptions}
           series={barChartData}
