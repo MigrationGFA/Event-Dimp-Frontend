@@ -178,10 +178,7 @@ const BusinessInfo = () => {
 
       if (response) {
         showToast(response.message, "success");
-        sessionStorage.setItem(
-          "ecosystemName",
-          response.ecosystem.ecosystemName
-        );
+        sessionStorage.setItem("ecosystemName", data.websiteName);
         navigate("/auth/select-website-design/new");
       }
     } catch (error) {
