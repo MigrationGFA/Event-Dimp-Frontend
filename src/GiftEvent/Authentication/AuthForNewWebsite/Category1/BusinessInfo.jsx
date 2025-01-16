@@ -11,6 +11,8 @@ import { Country } from "country-state-city";
 import api from "../../../../api/verifyDomain";
 import { statesAndLGAs } from "../../../../data/StateAndLGA";
 import RegistrationLayout from "../../../../layout/Creator/RegistrationLayout";
+import { EventSubCategory } from "../../../../data/SubCategory";
+import { Link } from "react-router-dom";
 
 const BusinessInfo = () => {
   const navigate = useNavigate();
@@ -166,7 +168,7 @@ const BusinessInfo = () => {
           mainObjective: data.businessSubcategory,
           contact: "not available",
           ecosystemDescription: data.businessDescription,
-          address: "nil",
+          address: data.address,
           country: data.country,
           state: data.state,
           localGovernment: data.lga,
@@ -176,7 +178,10 @@ const BusinessInfo = () => {
 
       if (response) {
         showToast(response.message, "success");
-        sessionStorage.setItem("ecosystemName", response.ecosystem.ecosystemName);
+        sessionStorage.setItem(
+          "ecosystemName",
+          response.ecosystem.ecosystemName
+        );
         navigate("/auth/select-website-design/new");
       }
     } catch (error) {
@@ -188,83 +193,88 @@ const BusinessInfo = () => {
   };
 
   return (
-    <RegistrationLayout >
-    <div className="flex flex-col h-full max-h-screen overflow-y-auto p-10">
-      
-
-      <form className="w-full font-body" onSubmit={handleSubmit(onSubmit)}>
-        {/* Business Name Field */}
-        <div className="mb-6">
-          <label htmlFor="businessName" className="block mb-1">
-            Business Name<span className="text-red-500">*</span>
-          </label>
-          <LongInputWithPlaceholder
-            id="businessName"
-            placeholder="What is the name of your Business?"
-            className="border-sec4 bg-primary9 rounded p-2"
-            {...register("businessName", {
-              required: "Business Name is required",
-              // onChange: (e) => {
-              // //   setValue("websiteName", e.target.value);
-
-              // },
-              onChange: handleWebsiteNameChange,
-            })}
-          />
-          {errors.businessName && (
-            <span className="text-red-500">{errors.businessName.message}</span>
-          )}
+    <RegistrationLayout>
+      <div className="flex flex-col h-full max-h-screen overflow-y-auto p-10">
+        <div className="text-right mb-10">
+          <Link to="/creator/dashboard/my-website">
+            <ButtonLongPurple type="text">Back To Dashboard</ButtonLongPurple>
+          </Link>
         </div>
-
-        {/* Website Name Field */}
-        <div className="mb-6">
-          <label htmlFor="websiteName" className="block mb-1">
-          Website Address<span className="text-red-500">*</span>
-          </label>
-          <div className="flex items-center">
+        <form className="w-full font-body" onSubmit={handleSubmit(onSubmit)}>
+          {/* Business Name Field */}
+          <div className="mb-6">
+            <label htmlFor="businessName" className="block mb-1">
+              Business Name<span className="text-red-500">*</span>
+            </label>
             <LongInputWithPlaceholder
-              id="websiteName"
-              placeholder="Website address name"
-              className="border-sec4 bg-primary9/85 rounded p-2 w-full border-r-0 flex-grow"
-              {...register("websiteName", {
-                required: "Website Address is required",
+              id="businessName"
+              placeholder="What is the name of your Business?"
+              className="border-sec4 bg-primary9 rounded p-2"
+              {...register("businessName", {
+                required: "Business Name is required",
+                // onChange: (e) => {
+                // //   setValue("websiteName", e.target.value);
+
+                // },
                 onChange: handleWebsiteNameChange,
               })}
             />
-            <span className="border border-sec4 bg-primary9/85 rounded p-[10px] border-l-0">
-              .dimplified.com
-            </span>
+            {errors.businessName && (
+              <span className="text-red-500">
+                {errors.businessName.message}
+              </span>
+            )}
           </div>
-          {domainErrorMessage && (
-            <div className="mb-4 p-4 bg-red-600 text-white rounded-md shadow-md">
-              {domainErrorMessage}
-            </div>
-          )}
-          {domainMessage && (
-            <div className="mb-4 p-4 bg-primary3 text-white rounded-md shadow-md">
-              {domainMessage}
-            </div>
-          )}
-          {domainSuggestions.length > 0 && (
-            <ul className="mt-2 p-2 border border-blue-500 rounded-md bg-white shadow-lg">
-              {domainSuggestions.map((suggestion, index) => (
-                <li
-                  key={index}
-                  className="py-1 px-2 text-blue-600 hover:bg-blue-100 rounded-md transition-colors duration-200"
-                >
-                  {suggestion}
-                </li>
-              ))}
-            </ul>
-          )}
-          {errors.websiteName && (
-            <div className="mt-2 p-2 text-red-500 font-semibold">
-              {errors.websiteName.message}
-            </div>
-          )}
-        </div>
 
-        <div className="w-full mb-6">
+          {/* Website Name Field */}
+          <div className="mb-6">
+            <label htmlFor="websiteName" className="block mb-1">
+              Website Address<span className="text-red-500">*</span>
+            </label>
+            <div className="flex items-center">
+              <LongInputWithPlaceholder
+                id="websiteName"
+                placeholder="Website address name"
+                className="border-sec4 bg-primary9/85 rounded p-2 w-full border-r-0 flex-grow"
+                {...register("websiteName", {
+                  required: "Website Address is required",
+                  onChange: handleWebsiteNameChange,
+                })}
+              />
+              <span className="border border-sec4 bg-primary9/85 rounded p-[10px] border-l-0">
+                .dimplified.com
+              </span>
+            </div>
+            {domainErrorMessage && (
+              <div className="mb-4 p-4 bg-red-600 text-white rounded-md shadow-md">
+                {domainErrorMessage}
+              </div>
+            )}
+            {domainMessage && (
+              <div className="mb-4 p-4 bg-primary3 text-white rounded-md shadow-md">
+                {domainMessage}
+              </div>
+            )}
+            {domainSuggestions.length > 0 && (
+              <ul className="mt-2 p-2 border border-blue-500 rounded-md bg-white shadow-lg">
+                {domainSuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    className="py-1 px-2 text-blue-600 hover:bg-blue-100 rounded-md transition-colors duration-200"
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {errors.websiteName && (
+              <div className="mt-2 p-2 text-red-500 font-semibold">
+                {errors.websiteName.message}
+              </div>
+            )}
+          </div>
+
+          <div className="w-full mb-6">
             <label htmlFor="country" className="block mb-1">
               Country<span className="text-red-500">*</span>
             </label>
@@ -286,176 +296,149 @@ const BusinessInfo = () => {
             )}
           </div>
 
-        {/* State, and LGA Fields */}
-        <div className="lg:flex gap-9 mb-6">
-          
+          {/* State, and LGA Fields */}
+          <div className="lg:flex gap-9 mb-6">
+            <div className="w-full mb-7 md:mb-0">
+              <label htmlFor="state" className="block mb-1">
+                State<span className="text-red-500">*</span>
+              </label>
+              <select
+                id="state"
+                className="w-full border-sec4 bg-primary9 rounded p-2"
+                {...register("state", { required: "State is required" })}
+                onChange={handleStateChange}
+              >
+                <option value="">Select State</option>
+                {states.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+              {errors.state && (
+                <span className="text-red-500">{errors.state.message}</span>
+              )}
+            </div>
 
-          <div className="w-full">
-            <label htmlFor="state" className="block mb-1">
-              State<span className="text-red-500">*</span>
-            </label>
-            <select
-              id="state"
-              className="w-full border-sec4 bg-primary9 rounded p-2"
-              {...register("state", { required: "State is required" })}
-              onChange={handleStateChange}
-            >
-              <option value="">Select State</option>
-              {states.map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-            {errors.state && (
-              <span className="text-red-500">{errors.state.message}</span>
-            )}
+            <div className="w-full">
+              <label htmlFor="lga" className="block mb-1">
+                Local Government Area<span className="text-red-500">*</span>
+              </label>
+              <select
+                id="lga"
+                className="w-full border-sec4 bg-primary9 rounded p-2"
+                {...register("lga", { required: "LGA is required" })}
+              >
+                <option value="">Select LGA</option>
+                {lgas.map((lga) => (
+                  <option key={lga} value={lga}>
+                    {lga}
+                  </option>
+                ))}
+              </select>
+              {errors.lga && (
+                <span className="text-red-500">{errors.lga.message}</span>
+              )}
+            </div>
           </div>
 
-          <div className="w-full">
-            <label htmlFor="lga" className="block mb-1">
-              Local Government Area<span className="text-red-500">*</span>
+          <div className="w-full mt-4 mb-7 lg:mt-0">
+            <label htmlFor="address" className="block mb-1">
+              Address<span className="text-red-500">*</span>
             </label>
-            <select
-              id="lga"
-              className="w-full border-sec4 bg-primary9 rounded p-2"
-              {...register("lga", { required: "LGA is required" })}
-            >
-              <option value="">Select LGA</option>
-              {lgas.map((lga) => (
-                <option key={lga} value={lga}>
-                  {lga}
-                </option>
-              ))}
-            </select>
-            {errors.lga && (
-              <span className="text-red-500">{errors.lga.message}</span>
-            )}
-          </div>
-        </div>
-
-        
-
-        <div className="lg:flex gap-9 mb-6">
-          <div className="w-full">
-            <label htmlFor="businessCategory" className="block mb-1">
-              Business Category<span className="text-red-500">*</span>
-            </label>
-            <select
-              id="businessCategory"
-              className="border border-sec4 bg-primary9/85 rounded p-2 w-full"
-              {...register("businessCategory", {
-                required: "Business Category is required",
+            <LongInputWithPlaceholder
+              id="address"
+              placeholder="street address?"
+              className="w-full border border-sec4 bg-primary9/85 rounded p-2"
+              {...register("address", {
+                required: "address is required",
               })}
-            >
-              <option value="Event Services">
-                Event Services
-              </option>
-            </select>
-            {errors.businessCategory && (
+            />
+            {errors.address && (
+              <span className="text-red-500">{errors.address.message}</span>
+            )}
+          </div>
+
+          <div className="lg:flex gap-9 mb-6">
+            <div className="w-full mb-7 lg:mb-0">
+              <label htmlFor="businessCategory" className="block mb-1">
+                Business Category<span className="text-red-500">*</span>
+              </label>
+              <select
+                id="businessCategory"
+                className="border border-sec4 bg-primary9/85 rounded p-2 w-full"
+                {...register("businessCategory", {
+                  required: "Business Category is required",
+                })}
+              >
+                <option value="Event Services">Event Services</option>
+              </select>
+              {errors.businessCategory && (
+                <span className="text-red-500">
+                  {errors.businessCategory.message}
+                </span>
+              )}
+            </div>
+
+            <div className="w-full">
+              <label htmlFor="businessSubcategory" className="block mb-1">
+                Business Subcategory<span className="text-red-500">*</span>
+              </label>
+              <select
+                id="businessSubcategory"
+                className="border border-sec4 bg-primary9/85 rounded p-2 w-full"
+                {...register("businessSubcategory", {
+                  required: "Business Subcategory is required",
+                })}
+                value={selectedSubcategory}
+                onChange={(e) => setSelectedSubcategory(e.target.value)} // Update the selected value
+              >
+                <option value="">-- Select SubCategory --</option>
+                {EventSubCategory.map((sub) => (
+                  <option key={sub} value={sub}>
+                    {sub}
+                  </option>
+                ))}
+              </select>
+              {errors.businessSubcategory && (
+                <span className="text-red-500">
+                  {errors.businessSubcategory.message}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="mb-6">
+            <label htmlFor="businessDescription" className="block mb-1">
+              Please describe your Business
+              <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              id="businessDescription"
+              className="w-full border border-sec4 bg-primary9 rounded p-2"
+              placeholder="Describe what your Business does"
+              rows={4}
+              {...register("businessDescription", {
+                required: "Business Description is required",
+              })}
+            ></textarea>
+            {errors.businessDescription && (
               <span className="text-red-500">
-                {errors.businessCategory.message}
+                {errors.businessDescription.message}
               </span>
             )}
           </div>
 
-          <div className="w-full">
-            <label htmlFor="businessSubcategory" className="block mb-1">
-              Business Subcategory<span className="text-red-500">*</span>
-            </label>
-            <select
-              id="businessSubcategory"
-              className="border border-sec4 bg-primary9/85 rounded p-2 w-full"
-              {...register("businessSubcategory", {
-                required: "Business Subcategory is required",
-              })}
-              value={selectedSubcategory}
-              onChange={(e) => setSelectedSubcategory(e.target.value)} // Update the selected value
-            >
-              <option value="">-- Select SubCategory --</option>
-              <option value=" Event Planning"> Event Planning</option>
-              <option value="Wedding Planning">Wedding Planning</option>
-              <option value="Catering Services">Catering Services</option>
-              <option value="DJ Services">
-              DJ Services
-              </option>
-              <option value="Live Band Services">Live Band Services</option>
-              <option value="Photography Services">Photography Services</option>
-              <option value="Videography Services">
-              Videography Services
-              </option>
-              <option value="Florist Services">
-              Florist Services
-              </option>
-              <option value="Event Rentals">
-              Event Rentals
-              </option>
-              <option value="Lighting and Sound Services">
-              Lighting and Sound Services
-              </option>
-              <option value="Event Coordination">
-              Event Coordination
-              </option>
-              <option value="Bartending Services">
-              Bartending Services
-              </option>
-              <option value="Security Services">
-              Security Services
-              </option>
-              <option value="Decoration Services">
-              Decoration Services
-              </option>
-              <option value="Venue Booking">
-              Venue Booking
-              </option>
-              <option value="Invitation Design">Invitation Design</option>
-              <option value="Event Staffing">Event Staffing</option>
-              <option value="Childcare Services">
-              Childcare Services
-              </option>
-              <option value="Entertainment Booking">Entertainment Booking</option>
-              <option value=" Transportation Services">
-              Transportation Services
-              </option>
-            </select>
-            {errors.businessSubcategory && (
-              <span className="text-red-500">
-                {errors.businessSubcategory.message}
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className="mb-6">
-          <label htmlFor="businessDescription" className="block mb-1">
-            Please describe your Business<span className="text-red-500">*</span>
-          </label>
-          <textarea
-            id="businessDescription"
-            className="w-full border border-sec4 bg-primary9 rounded p-2"
-            placeholder="Describe what your Business does"
-            rows={4}
-            {...register("businessDescription", {
-              required: "Business Description is required",
-            })}
-          ></textarea>
-          {errors.businessDescription && (
-            <span className="text-red-500">
-              {errors.businessDescription.message}
-            </span>
-          )}
-        </div>
-
-        <div className="flex justify-between gap-4 mt-6 mb-40">
-          {/* <ButtonSmallWhite onClick={prevStep} type="button">
+          <div className="flex justify-between gap-4 mt-6 mb-40">
+            {/* <ButtonSmallWhite onClick={prevStep} type="button">
             Back
           </ButtonSmallWhite> */}
-          <ButtonLongPurple disabled={isLoading} type="submit">
-            {isLoading ? "Submitting..." : "Submit"}
-          </ButtonLongPurple>
-        </div>
-      </form>
-    </div>
+            <ButtonLongPurple disabled={isLoading} type="submit">
+              {isLoading ? "Submitting..." : "Submit"}
+            </ButtonLongPurple>
+          </div>
+        </form>
+      </div>
     </RegistrationLayout>
   );
 };

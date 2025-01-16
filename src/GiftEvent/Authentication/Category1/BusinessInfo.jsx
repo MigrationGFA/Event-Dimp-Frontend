@@ -10,6 +10,7 @@ import { showToast } from "../../../component/ShowToast";
 import { Country } from "country-state-city";
 import api from "../../../api/verifyDomain";
 import { statesAndLGAs } from "../../../data/StateAndLGA";
+import { EventSubCategory } from "../../../data/SubCategory";
 
 const BusinessInfo = ({ prevStep }) => {
   const navigate = useNavigate();
@@ -151,6 +152,7 @@ const BusinessInfo = ({ prevStep }) => {
 
   const onSubmit = async (data) => {
     sessionStorage.setItem("subCategory", data.businessSubcategory);
+    sessionStorage.setItem("ecosystemName", data.websiteName);
     const type = determineType(data.businessSubcategory.trim());
     try {
       setIsLoading(true);
@@ -165,7 +167,7 @@ const BusinessInfo = ({ prevStep }) => {
           mainObjective: data.businessSubcategory,
           contact: "not available",
           ecosystemDescription: data.businessDescription,
-          address: "nil",
+          address: data.address,
           country: data.country,
           state: data.state,
           localGovernment: data.lga,
@@ -187,8 +189,6 @@ const BusinessInfo = ({ prevStep }) => {
 
   return (
     <div className="flex flex-col h-full max-h-screen overflow-y-auto p-4">
-      
-
       <form className="w-full font-body" onSubmit={handleSubmit(onSubmit)}>
         {/* Business Name Field */}
         <div className="mb-6">
@@ -216,7 +216,7 @@ const BusinessInfo = ({ prevStep }) => {
         {/* Website Name Field */}
         <div className="mb-6">
           <label htmlFor="websiteName" className="block mb-1">
-          Website Address<span className="text-red-500">*</span>
+            Website Address<span className="text-red-500">*</span>
           </label>
           <div className="flex items-center">
             <LongInputWithPlaceholder
@@ -262,31 +262,29 @@ const BusinessInfo = ({ prevStep }) => {
         </div>
 
         <div className="w-full mb-6">
-            <label htmlFor="country" className="block mb-1">
-              Country<span className="text-red-500">*</span>
-            </label>
-            <select
-              id="country"
-              className="w-full border-sec4 bg-primary9 rounded p-2"
-              {...register("country", { required: "Country is required" })}
-              onChange={handleCountryChange}
-            >
-              <option value="">Select Country</option>
-              {countries.map((country) => (
-                <option key={country.isoCode} value={country.isoCode}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
-            {errors.country && (
-              <span className="text-red-500">{errors.country.message}</span>
-            )}
-          </div>
+          <label htmlFor="country" className="block mb-1">
+            Country<span className="text-red-500">*</span>
+          </label>
+          <select
+            id="country"
+            className="w-full border-sec4 bg-primary9 rounded p-2"
+            {...register("country", { required: "Country is required" })}
+            onChange={handleCountryChange}
+          >
+            <option value="">Select Country</option>
+            {countries.map((country) => (
+              <option key={country.isoCode} value={country.isoCode}>
+                {country.name}
+              </option>
+            ))}
+          </select>
+          {errors.country && (
+            <span className="text-red-500">{errors.country.message}</span>
+          )}
+        </div>
 
         {/* State, and LGA Fields */}
         <div className="lg:flex gap-9 mb-6">
-          
-
           <div className="w-full">
             <label htmlFor="state" className="block mb-1">
               State<span className="text-red-500">*</span>
@@ -309,7 +307,7 @@ const BusinessInfo = ({ prevStep }) => {
             )}
           </div>
 
-          <div className="w-full">
+          <div className="w-full mt-7 md:mt-0">
             <label htmlFor="lga" className="block mb-1">
               Local Government Area<span className="text-red-500">*</span>
             </label>
@@ -331,7 +329,22 @@ const BusinessInfo = ({ prevStep }) => {
           </div>
         </div>
 
-        
+        <div className="w-full mt-4 mb-7 lg:mt-0">
+          <label htmlFor="address" className="block mb-1">
+            Address<span className="text-red-500">*</span>
+          </label>
+          <LongInputWithPlaceholder
+            id="address"
+            placeholder="street address?"
+            className="w-full border border-sec4 bg-primary9/85 rounded p-2"
+            {...register("address", {
+              required: "address is required",
+            })}
+          />
+          {errors.address && (
+            <span className="text-red-500">{errors.address.message}</span>
+          )}
+        </div>
 
         <div className="lg:flex gap-9 mb-6">
           <div className="w-full">
@@ -345,9 +358,7 @@ const BusinessInfo = ({ prevStep }) => {
                 required: "Business Category is required",
               })}
             >
-              <option value="Event Services">
-                Event Services
-              </option>
+              <option value="Event Services">Event Services</option>
             </select>
             {errors.businessCategory && (
               <span className="text-red-500">
@@ -356,7 +367,7 @@ const BusinessInfo = ({ prevStep }) => {
             )}
           </div>
 
-          <div className="w-full">
+          <div className="w-full mt-7 md:mt-0">
             <label htmlFor="businessSubcategory" className="block mb-1">
               Business Subcategory<span className="text-red-500">*</span>
             </label>
@@ -370,50 +381,11 @@ const BusinessInfo = ({ prevStep }) => {
               onChange={(e) => setSelectedSubcategory(e.target.value)} // Update the selected value
             >
               <option value="">-- Select SubCategory --</option>
-              <option value=" Event Planning"> Event Planning</option>
-              <option value="Wedding Planning">Wedding Planning</option>
-              <option value="Catering Services">Catering Services</option>
-              <option value="DJ Services">
-              DJ Services
-              </option>
-              <option value="Live Band Services">Live Band Services</option>
-              <option value="Photography Services">Photography Services</option>
-              <option value="Videography Services">
-              Videography Services
-              </option>
-              <option value="Florist Services">
-              Florist Services
-              </option>
-              <option value="Event Rentals">
-              Event Rentals
-              </option>
-              <option value="Lighting and Sound Services">
-              Lighting and Sound Services
-              </option>
-              <option value="Event Coordination">
-              Event Coordination
-              </option>
-              <option value="Bartending Services">
-              Bartending Services
-              </option>
-              <option value="Security Services">
-              Security Services
-              </option>
-              <option value="Decoration Services">
-              Decoration Services
-              </option>
-              <option value="Venue Booking">
-              Venue Booking
-              </option>
-              <option value="Invitation Design">Invitation Design</option>
-              <option value="Event Staffing">Event Staffing</option>
-              <option value="Childcare Services">
-              Childcare Services
-              </option>
-              <option value="Entertainment Booking">Entertainment Booking</option>
-              <option value=" Transportation Services">
-              Transportation Services
-              </option>
+              {EventSubCategory.map((sub) => (
+                <option key={sub} value={sub}>
+                  {sub}
+                </option>
+              ))}
             </select>
             {errors.businessSubcategory && (
               <span className="text-red-500">

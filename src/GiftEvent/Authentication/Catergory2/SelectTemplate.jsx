@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import templates from "../../../component/Templates";
 import { Heading, Text } from "../../../component/Text";
@@ -26,27 +25,22 @@ const SelectTemplate = ({ nextStep, currentStep }) => {
   useEffect(() => {
     const storedSubCategory = sessionStorage.getItem("subCategory")?.trim();
     setSubCategory(storedSubCategory || "Event Planning");
-    if (userStep === 5 || userStep === 4 || userStep === 3)
-      navigate("/auth/login");
-  }, [userStep,
-     navigate
-    ]);
-
+    if (userStep === 5 || userStep === 4) navigate("/auth/login");
+  }, [userStep, navigate]);
 
   const handleSubmit = (id) => {
     sessionStorage.setItem("templateId", id);
     nextStep();
   };
 
-
   // Filter templates based on subCategory
   const filteredTemplates = subCategory
-  ? templates.filter(
-      (template) =>
-        template.category.trim().toLowerCase() === subCategory.trim().toLowerCase()
-    )
-  : templates;
-
+    ? templates.filter(
+        (template) =>
+          template.category.trim().toLowerCase() ===
+          subCategory.trim().toLowerCase()
+      )
+    : templates;
 
   const groupedTemplates = groupByCategory(filteredTemplates);
 
@@ -69,14 +63,11 @@ const SelectTemplate = ({ nextStep, currentStep }) => {
       <div className="space-y-8 overflow-y-auto mt-10 h-full pb-36">
         {/* Blank Template Button */}
         <div className="justify-end flex">
-          <ButtonSmallPurple
-            width="w-auto"
-            onClick={() => handleSubmit(15)}
-          >
+          <ButtonSmallPurple width="w-auto" onClick={() => handleSubmit(15)}>
             Select Blank Template
           </ButtonSmallPurple>
         </div>
-        
+
         {Object.entries(groupedTemplates).map(
           ([category, categoryTemplates]) => (
             <div key={category}>

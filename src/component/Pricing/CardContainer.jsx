@@ -24,7 +24,6 @@ const Card = ({
   handleSelectChange,
   handlePlanChange,
   // handleSignUp: handleSignUpExport,
-  
 }) => {
   const userDetails = useSelector(
     (state) => state.auth.user || "UNKNOWN EMAIL"
@@ -50,8 +49,6 @@ const Card = ({
       return "annually";
     }
   };
-
-
 
   const handlePaystackPayment = (
     title,
@@ -145,13 +142,13 @@ const Card = ({
       return;
     }
     try {
-      const ecosystemName = sessionStorage.getItem("ecosystemName");
+      const ecosystemDomian = sessionStorage.getItem("ecosystemName");
       const response = await api.creatorFreeSubscribtion({
         creatorId: parseFloat(userDetails.creatorId),
         planType: title,
         sizeLimit: selectedTransaction,
         interval: "Monthly",
-        ecosystemDomain: ecosystemName,
+        ecosystemDomain: ecosystemDomian,
         accessToken,
         refreshToken,
       });
@@ -167,8 +164,8 @@ const Card = ({
         if (response.data.planType) {
           dispatch(setEcosystemPlan(response.data.planType));
         }
-        
-        sessionStorage.removeItem("ecosystemName")
+
+        sessionStorage.removeItem("ecosystemName");
         navigate("/creator/dashboard/general-overview");
       } else {
         showToast("Subscription verification failed. Please try again.");
@@ -258,7 +255,7 @@ const CardContainer = ({ setPriceInSubscription, handleSignUp }) => {
     options[0].value
   );
   const [selectedInterval, setSelectedInterval] = useState("Monthly");
- // const [signUpHandler, setSignUpHandler] = useState(null);
+  // const [signUpHandler, setSignUpHandler] = useState(null);
 
   const handleSelectChange = (value) => {
     setSelectedTransaction(value);

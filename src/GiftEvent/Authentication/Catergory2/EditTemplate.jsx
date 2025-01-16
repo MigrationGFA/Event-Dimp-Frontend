@@ -32,8 +32,7 @@ const EditTemplate = ({
   const userStep = useSelector((state) => state.auth?.user?.step);
 
   useEffect(() => {
-    if (userStep === 5 || userStep === 4 || userStep === 3)
-      navigate("/auth/login");
+    if (userStep === 5 || userStep === 4) navigate("/auth/login");
   }, [userStep, navigate]);
 
   const { accessToken, refreshToken } = useSelector((state) => state.auth);
@@ -53,61 +52,9 @@ const EditTemplate = ({
     }
   }, [templateId]);
 
-  // const handleContinue = async () => {
-  //   // setLoading(true);
-  //   // const ecosystemDomain = userDetails.ecosystemDomain || "not available";
-  //   // let selectedService = barber;
-  //   // switch (templateId) {
-  //   //   case 10:
-  //   //     selectedService = barber;
-  //   //     break;
-  //   //   case 11:
-  //   //     selectedService = HairSalon;
-  //   //     break;
-  //   //   case 12:
-  //   //     selectedService = MakeUp;
-  //   //     break;
-  //   //   case 13:
-  //   //     selectedService = barber;
-  //   //   case 14:
-  //   //     selectedService = barber;
-  //   //     break;
-  //   //   default:
-  //   //     selectedService = barber;
-  //   // }
-
-  //   // try {
-  //   //   const response = await api.createServices({
-  //   //     creatorId,
-  //   //     ecosystemDomain: ecosystemDomain,
-  //   //     category: "Personal Care Service",
-  //   //     subCategory: "Barber Shop",
-  //   //     prefix: "I will",
-  //   //     header: "give a nice hair cut of your choice",
-  //   //     description:
-  //   //       "The service offers you a nice and profession hair services",
-  //   //     format: "Onsite",
-  //   //     currency: "NGN",
-  //   //     services: selectedService,
-  //   //     accessToken,
-  //   //     refreshToken,
-  //   //     dispatch,
-  //   //     navigate,
-  //   //   });
-
-  //   //   // showToast("Busines  site Submitted Successfully", "success")
-  //   //   await handleSubmit();
-  //   //   setLoading(false);
-
-  //   // } catch (error) {
-  //   //   setLoading(false);
-  //   //   console.log("this is error", error);
-  //   //   showToast("Error creating template");
-  //   // }
-  // };
-
   const handleSubmit = async () => {
     // Add template details to FormData
+    setLoading(true);
     const ecosystemDomain = userDetails.ecosystemDomain || "not available";
 
     try {
@@ -135,9 +82,11 @@ const EditTemplate = ({
         faqStyles: content.faqStyles,
         footer: content.footer,
       });
+      setLoading(false);
       showToast("Business site Submitted Successfully", "success");
       navigate("/auth/subscription");
     } catch (error) {
+      setLoading(false);
       console.log(error);
       showToast(error.response.data.message);
     }
