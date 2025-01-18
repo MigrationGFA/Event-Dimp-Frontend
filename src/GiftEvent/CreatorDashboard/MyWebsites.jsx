@@ -65,7 +65,7 @@ const MyWebsites = () => {
       </div>
 
       <div>
-        <RecentlyCreatedWebsites websites={websites} loading={loading} />
+        <RecentlyCreatedWebsites websites={websites} loading={loading} getAllWebsites={getAllWebsites}/>
       </div>
   </CreatorDashboardLayout>
   );

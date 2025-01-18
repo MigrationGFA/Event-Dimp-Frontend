@@ -134,6 +134,11 @@ const GiFtSteps = [
     icon: GiftImg,
   },
   {
+    label: "Gift Plan",
+    link: "/creator/dashboard/gifts-plan",
+    icon: GiftImg,
+  },
+  {
     label: "Wallet",
     link: "/creator/dashboard/wallet",
     icon: PaymentImg,
@@ -298,7 +303,6 @@ const CreatorDashboardLayout = ({ children }) => {
   };
 
   const handleDashboardSwitch = (dashboard, type, ecosystemDomain) => {
-    console.log(`Switched to: ${dashboard}, Type: ${type}, ecosystemDomain: ${ecosystemDomain}`);
     setIsDropdownOpen(false);
     dispatch(setEcosystemDomain(ecosystemDomain)); 
     dispatch(setEcosystemType(type));
