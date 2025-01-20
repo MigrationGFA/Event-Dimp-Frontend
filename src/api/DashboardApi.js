@@ -762,6 +762,7 @@ const creatorCreateTicket = async ({
     }
   }
 };
+
 const creatorGetAllTicket = async ({
   ecosystemDomain,
   accessToken,
@@ -834,7 +835,6 @@ const creatorDeleteTicket = async ({
   }
 };
 
-
 const creatorGetAllTicketPurchases = async ({
   ecosystemDomain,
   accessToken,
@@ -896,15 +896,124 @@ const creatorGetAllTicketPurchasesSummary = async ({
       navigate("/auth/login");
     } else {
       throw new Error(
-        error.response?.data?.message || "Error fetching Tickets Purchases Summary"
+        error.response?.data?.message ||
+          "Error fetching Tickets Purchases Summary"
       );
     }
   }
 };
 
+const creatorGetAllGift = async ({
+  ecosystemDomain,
+  accessToken,
+  refreshToken,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.get(
+      `${PLAIN_API_URL}/gift/${ecosystemDomain}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      // Navigate to login page on token expiration
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error fetching Gift");
+    }
+  }
+};
 
+const creatorCreateGift = async ({
+  accessToken,
+  refreshToken,
+  name,
+  minAmount,
+  maxAmount,
+  description,
+  currency,
+  creatorId,
+  ecosystemDomain,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.post(`${PLAIN_API_URL}/create-gift`, {
+      name,
+      minAmount,
+      maxAmount,
+      description,
+      currency,
+      creatorId,
+      ecosystemDomain,
+    });
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error Creating Ticket");
+    }
+  }
+};
+
+const creatorEditGift = async ({
+  accessToken,
+  refreshToken,
+  name,
+  minAmount,
+  maxAmount,
+  description,
+  currency,
+  giftId,
+  ecosystemDomain,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.patch(`${PLAIN_API_URL}/edit-gift`, {
+      giftId,
+      name,
+      minAmount,
+      maxAmount,
+      description,
+      currency,
+      ecosystemDomain,
+    });
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error Editing Ticket");
+    }
+  }
+};
+
+const creatorDeleteWebsite = async ({
+  accessToken,
+  refreshToken,
+  creatorId,
+  ecosystemDomain,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.delete(
+      `${PLAIN_API_URL}/delete-ecosystem/${creatorId}/${ecosystemDomain}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error Deleting Ecosystem");
+    }
+  }
+};
 
 export default {
+  creatorDeleteWebsite,
+  creatorEditGift,
+  creatorCreateGift,
+  creatorGetAllGift,
   creatorGetAllTicketPurchases,
   creatorGetAllTicketPurchasesSummary,
   creatorGetRecentEcosystem,
