@@ -40,7 +40,6 @@ import UserLogin from "../GiftEvent/Authentication/RegisterUser/UserLogin";
 import BusinessInfo from "../GiftEvent/Authentication/AuthForNewWebsite/Category1/BusinessInfo";
 import NewTemplate from "../GiftEvent/Authentication/AuthForNewWebsite/Catergory2/Template";
 import NewSubscription from "../GiftEvent/Authentication/AuthForNewWebsite/Catergory3/Subcription";
-import GiftsPlan from "../GiftEvent/CreatorDashboard/GiftPlan";
 
 //import { ProtectedRoute } from "./ProtectedRoute";
 
@@ -48,9 +47,6 @@ const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<EventLanding />} />
-      <Route path="/pricing" element={<Pricing />} />
-      <Route path="/usecases" element={<SkillCategories />} />
-      <Route path="/help-center" element={<LandingHelpCenter />} />
       <Route path="/auth/login" element={<UserLogin />} />
       <Route path="/login" element={<LoginModal />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -91,7 +87,6 @@ const AllRoutes = () => {
       <Route path="/creator/dashboard/overview" element={<Overview />} />
       <Route path="/creator/dashboard/attendees" element={<Attendees />} />
       <Route path="/creator/dashboard/gifts" element={<Gifts />} />
-      <Route path="/creator/dashboard/gifts-plan" element={<GiftsPlan />} />
       <Route path="/creator/dashboard/tickets" element={<Tickets />} />
       <Route path="/creator/dashboard/my-website" element={<MyWebsites />} />
       <Route path="/creator/dashboard/profile" element={<CreatorProfile />} />
