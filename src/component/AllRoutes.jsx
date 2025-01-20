@@ -11,6 +11,8 @@ import VerifyPasswordCode from "../GiftEvent/Authentication/RegisterUser/VerifyP
 
 import BlankTemplate from "../GiftEvent/Templates/Blank-Template/BlankTemplate";
 
+import EventLanding from "../pages/LandingPages/EventLanding";
+
 // creator Dashboard general
 import GeneralOverview from "../GiftEvent/CreatorDashboard/General/Overviews";
 import GeneralBooking from "../GiftEvent/CreatorDashboard/General/Booking";
@@ -44,6 +46,7 @@ import NewSubscription from "../GiftEvent/Authentication/AuthForNewWebsite/Cater
 const AllRoutes = () => {
   return (
     <Routes>
+      <Route path="/" element={<EventLanding />} />
       <Route path="/auth/login" element={<UserLogin />} />
       <Route path="/login" element={<LoginModal />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
