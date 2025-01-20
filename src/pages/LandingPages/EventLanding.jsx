@@ -942,7 +942,7 @@ const EventLanding = () => {
                     <>
                       <DisclosureButton className="flex justify-between w-full py-4 text-left text-gray-800">
                         <h3 className="font-bold text-lg">
-                          Can I customize the event MyWebsite to fit my theme?
+                          Can I customize the event website to fit my theme?
                         </h3>
                         <span className="flex items-center">
                           {open ? "-" : "+"}

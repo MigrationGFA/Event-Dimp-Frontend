@@ -47,6 +47,9 @@ const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<EventLanding />} />
+      <Route path="/pricing" element={<Pricing />} />
+      <Route path="/usecases" element={<SkillCategories />} />
+      <Route path="/help-center" element={<LandingHelpCenter />} />
       <Route path="/auth/login" element={<UserLogin />} />
       <Route path="/login" element={<LoginModal />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
