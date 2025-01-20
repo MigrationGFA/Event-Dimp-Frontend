@@ -14,7 +14,7 @@ const Welcome = ({ earnings, bookingDetails }) => {
   const name = useSelector((state) => state.auth.user);
   const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
 
-  const link = `https://${ecosystemDomain}.dimpified.com`;
+  const link = `https://${ecosystemDomain}.dimpified.com.ng`;
 
   const handleCopy = async () => {
     try {
@@ -28,7 +28,7 @@ const Welcome = ({ earnings, bookingDetails }) => {
 
  
   const handleWithdraw = () => {
-    navigate("/creator/dashboard/payments");
+    navigate("/creator/dashboard/general-payment");
   };
 
   const userImage = useSelector((state) => state.auth.user?.image);

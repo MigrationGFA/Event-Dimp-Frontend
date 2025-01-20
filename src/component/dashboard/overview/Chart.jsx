@@ -1,7 +1,9 @@
 import React from "react";
 import Chart from "react-apexcharts";
+import { useSelector } from "react-redux";
 
 const Charts = () => {
+  const ecosystemType = useSelector((state) => state.ecosystemType.type);
   // Dummy data for demonstration purposes
   const dummyMonthlyIncome = {
     totalMonthlyIncome: 15000,
@@ -99,7 +101,7 @@ const Charts = () => {
       {/* Bar Chart */}
       <div className="w-full p-4 bg-primary1 rounded-xl shadow-lg lg:w-6/12 h-auto">
         <h3 className="text-sm font-semibold">
-          {dummyMonthlyIncome.totalMonthlyIncome || 0} All time total Gifts
+          {dummyMonthlyIncome.totalMonthlyIncome || 0} All time total {ecosystemType}
         </h3>
         <Chart
           options={barOptions}

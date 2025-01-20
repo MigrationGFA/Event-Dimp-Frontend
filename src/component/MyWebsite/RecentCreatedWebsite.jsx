@@ -114,7 +114,7 @@ const RecentlyCreatedWebsites = ({ websites, loading, getAllWebsites }) => {
   };
 
   return (
-    <div className="mt-10 mx-4 p-2 lg:mx-0 bg-white shadow-lg rounded-lg">
+    <div className="mt-10 mx-4 p-2 lg:mx-0 bg-white rounded-lg">
       <h3 className="text-2xl font-semibold mb-6">Recently Created Websites</h3>
       <div className="space-y-6">
         {currentWebsites?.map((website) => (

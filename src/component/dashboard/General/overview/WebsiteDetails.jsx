@@ -54,13 +54,13 @@ const WebsitesDetails = () => {
         Websites Details
       </Heading>
       <a
-        href={`https://${ecosystemDomain}.dimpified.com`}
+        href={`https://${ecosystemDomain}.dimpified.com.ng`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-primary3 break-words w-full"
       >
         <Text color="blue-600" className="break-words">
-          {`https://${ecosystemDomain}.dimpified.com`}
+          {`https://${ecosystemDomain}.dimpified.com.ng`}
         </Text>
       </a>
       <div className="mt-2 grid grid-cols-1 sm:grid-cols-1">

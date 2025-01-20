@@ -35,9 +35,7 @@ const Payments = () => {
     getAllTimeBooking();
     getPaymentChart();
     getAllBankDetails();
-  }, [
-    ecosystemDomain, accessToken, refreshToken
-  ]);
+  }, [ecosystemDomain, accessToken, refreshToken]);
 
   const getEarnings = async () => {
     try {
@@ -185,11 +183,8 @@ const Payments = () => {
       <div className="lg:flex items-center  justify-center lg:justify-between my-8 px-4 lg:px-0">
         <div>
           <Text className="lg:text-xl text-sm font-semibold text-primary2">
-            Current Plan (
-              {/* {plan}  */}
-            Plan)
+            Current Plan ({plan} Plan)
           </Text>
-
         </div>
         <div className="lg:4/12 ">
           <ButtonSmallPurple
@@ -203,9 +198,7 @@ const Payments = () => {
       </div>
       <div className="lg:flex w-full lg:space-x-4 space-y-5 lg:space-y-0  px-4 lg:px-0">
         <PaymentCard earnings={earnings} todaySales={todaySales} />
-        <WithdrawalCard 
-        allBankDetails={allBankDetails} earnings={earnings} 
-        />
+        <WithdrawalCard allBankDetails={allBankDetails} earnings={earnings} />
       </div>
       <div className="lg:flex lg:space-x-5 lg:space-y-0  w-full mt-6 px-4 lg:px-0">
         <WithdrawDetails
@@ -219,10 +212,7 @@ const Payments = () => {
       </div>
 
       <div className="px-4 lg:px-1">
-        <PaymentHistories
-          withdrawHistory={withdrawHistory}
-          
-        />
+        <PaymentHistories withdrawHistory={withdrawHistory} />
       </div>
     </CreatorDashboardLayout>
   );
