@@ -10,14 +10,12 @@ const MyWebsiteCards = ({websites}) => {
   const handleCreateWebsite = () => {
     navigate("/auth/personal-Information/new");
   };
-  const handleAllWebsite = () => {
-    navigate("/creator/dashboard/All-website");
-  };
+
 
   return (
     <div className="mt-5">
       {/* Card Container */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Total Websites Created Card */}
         <div className="bg-[#F3EFFF] p-6 rounded-lg flex items-center justify-between shadow-lg border border-purple-300">
           <Text className="text-center font-semibold text-lg mt-4">
@@ -44,7 +42,7 @@ const MyWebsiteCards = ({websites}) => {
         </button>
 
         {/* View All Websites Card */}
-        <button
+        {/* <button
           className="bg-[#FFF6D9] p-6 rounded-lg flex items-center justify-between shadow-lg border border-yellow-400"
           onClick={handleAllWebsite}
         >
@@ -52,7 +50,7 @@ const MyWebsiteCards = ({websites}) => {
           <div className="bg-[#FCEECB] w-10 h-10 flex items-center justify-center rounded-full">
             <img src={TotalTodayImg} alt="View Icon" />
           </div>
-        </button>
+        </button> */}
       </div>
     </div>
   );

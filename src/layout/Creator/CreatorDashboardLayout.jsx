@@ -207,10 +207,10 @@ const CreatorDashboardLayout = ({ children }) => {
         accessToken,
         refreshToken,
       });
-  
+
       const ecosystems = response.data.ecosystems || [];
       setWebsites(ecosystems);
-  
+
       // Extract both ecosystemName and type
       const dashboardData = ecosystems.map((website) => ({
         name: website.ecosystemName,
@@ -218,14 +218,12 @@ const CreatorDashboardLayout = ({ children }) => {
         ecosystemDomain: website.ecosystemDomain,
       }));
       setDashboards(dashboardData);
-  
     } catch (error) {
       console.error("Could not get websites:", error);
     } finally {
       setLoading(false);
     }
   };
-  
 
   const getNotification = async () => {
     try {
@@ -304,10 +302,23 @@ const CreatorDashboardLayout = ({ children }) => {
 
   const handleDashboardSwitch = (dashboard, type, ecosystemDomain) => {
     setIsDropdownOpen(false);
-    dispatch(setEcosystemDomain(ecosystemDomain)); 
+    dispatch(setEcosystemDomain(ecosystemDomain));
     dispatch(setEcosystemType(type));
+    if (type === "Ticketing")
+    {
+      navigate("/creator/dashboard/overview")
+    } else if (type === "Booking") 
+    {
+      navigate("/creator/dashboard/general-overview")
+    } else if (type === "Gift")
+    {
+      navigate("/creator/dashboard/overview")
+    }
+    else {
+      navigate("/creator/dashboard/general-overview")
+    }
   };
-  
+
   return (
     <div className="flex h-screen overflow-hidden bg-primary1 font-body">
       {/* Sidebar */}
@@ -450,7 +461,11 @@ const CreatorDashboardLayout = ({ children }) => {
                       <button
                         key={index}
                         onClick={() =>
-                          handleDashboardSwitch(dashboard.name, dashboard.type, dashboard.ecosystemDomain)
+                          handleDashboardSwitch(
+                            dashboard.name,
+                            dashboard.type,
+                            dashboard.ecosystemDomain
+                          )
                         }
                         className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
                       >
@@ -549,6 +564,39 @@ const CreatorDashboardLayout = ({ children }) => {
                 className={`transition-all duration-300 w-24`}
               />
             </Link>
+
+            <div className="relative">
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center space-x-2 bg-transparent border border-gray-300 text-gray-700 px-1 py-1 rounded-lg hover:bg-gray-100 transition"
+                >
+                  <span className="text-[12px]">Switch Dashboard</span>
+                  {/* Font Awesome Dropdown Icon */}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className="text-gray-700 text-sm"
+                  />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute top-12 left-0 bg-white shadow-lg rounded-lg w-48 py-2 z-10">
+                    {dashboards.map((dashboard, index) => (
+                      <button
+                        key={index}
+                        onClick={() =>
+                          handleDashboardSwitch(
+                            dashboard.name,
+                            dashboard.type,
+                            dashboard.ecosystemDomain
+                          )
+                        }
+                        className="block w-full text-left px-1 py-1 text-gray-700 hover:bg-gray-100"
+                      >
+                        {dashboard.name} ({dashboard.type})
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             <button
               onClick={toggleResSidebar}
               className="flex items-center text-xl"
@@ -572,93 +620,50 @@ const CreatorDashboardLayout = ({ children }) => {
 
               {/* Navigation items */}
               <nav className="text-center">
-                <ul className="text-lg space-y-5">
-                  <li>
+                {steps.map((step, index) => {
+                  const isActive = step.isActive
+                    ? step.isActive(location.pathname)
+                    : location.pathname === step.link;
+
+                  return (
                     <Link
-                      to="/creator/dashboard/overview"
-                      onClick={toggleResSidebar}
+                      to={step.link}
+                      key={index}
+                      className={`flex items-center space-y-2 w-full p-2 transition-all duration-300 ${
+                        isActive ? "bg-sec6 rounded-lg" : ""
+                      }`}
                     >
-                      Overview
+                      <img
+                        src={step.icon}
+                        alt={step.label}
+                        className={`w-6 h-6 transition-all duration-300 ${
+                          isSidebarOpen ? "mr-4" : ""
+                        }`}
+                      />
+                      {isSidebarOpen && (
+                        <Heading
+                          level={4}
+                          size="lg"
+                          lineHeight="leading-1"
+                          color={isActive ? "primary4" : "primary4"}
+                          className={`font-semibold xl:text-[13px] lg:text-[11px] ${
+                            isActive ? "font-bold" : "font-normal"
+                          }`}
+                        >
+                          {step.label}
+                        </Heading>
+                      )}
+                      
                     </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/creator/dashboard/booking"
-                      onClick={toggleResSidebar}
-                    >
-                      Bookings
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/creator/dashboard/payments"
-                      onClick={toggleResSidebar}
-                    >
-                      Payment
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/creator/dashboard/edit-template"
-                      onClick={toggleResSidebar}
-                    >
-                      Edit Website
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/creator/dashboard/edit-service"
-                      onClick={toggleResSidebar}
-                    >
-                      Edit Services
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/creator/dashboard/Subscription"
-                      onClick={toggleResSidebar}
-                    >
-                      Subscription
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/creator/dashboard/profile"
-                      onClick={toggleResSidebar}
-                    >
-                      Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/creator/dashboard/help-center"
-                      onClick={toggleResSidebar}
-                    >
-                      Help Desk
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/creator/dashboard/watch-demo"
-                      onClick={toggleResSidebar}
-                    >
-                      Watch Demo
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/creator/dashboard/notification"
-                      onClick={toggleResSidebar}
-                    >
-                      Notification
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="text-red-600" onClick={handleLogout}>
-                      Log Out
-                    </Link>
-                  </li>
-                </ul>
+                     
+                  );
+                })}
+                <Link
+                     to="/creator/dashboard/notification"
+                     className="block text-center text-primary4 font-semibold  mt-3"
+                   >
+                     View all notifications
+                   </Link>
               </nav>
             </div>
           )}

@@ -13,10 +13,10 @@ const Welcome = ({ earnings, bookingDetails }) => {
   const navigate = useNavigate();
   const name = useSelector((state) => state.auth.user);
   const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
+  const ecosystemType = useSelector((state) => state.ecosystemType.type);
 
 
-
-  const link = `https://${ecosystemDomain}.dimpified.com`;
+  const link = `https://${ecosystemDomain}.dimpified.com.ng`;
 
   const handleCopy = async () => {
     try {
@@ -76,7 +76,7 @@ const Welcome = ({ earnings, bookingDetails }) => {
           </div>
         </div>
 
-        <div className="lg:flex items-start space-x-3 mt-3 lg:px-3">
+        <div className="lg:flex items-start space-x-3  lg:px-3">
           {/* Earnings and Registered People */}
           <div className="flex space-x-3">
             {/* Total Earnings */}
@@ -92,7 +92,7 @@ const Welcome = ({ earnings, bookingDetails }) => {
               </Heading>
               <div className="lg:flex items-center">
                 <Text size="xs" color="gray-500">
-                  Today’s Gift Received
+                  Today’s {ecosystemType} Received
                 </Text>
               </div>
             </div>
