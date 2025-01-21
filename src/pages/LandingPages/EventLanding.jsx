@@ -100,16 +100,16 @@ const testimonials = [
 
 const servicesData = [
   {
-    title: "Gift Events",
+    title: "Personal Events",
     description:
-      "These are events where attendees customarily offer monetary gifts to organizers. Examples include Weddings, Birthdays, Anniversaries, etc.",
+      "These are events where attendees celebrate with others and may offer monetary gifts. Examples include Weddings, Birthdays, Anniversaries, Baby Showers, Funerals etc.",
     icon: <FaGift className="text-yellow-500 text-4xl" />, // Adjust styles as needed
     bg: "bg-yellow-100",
   },
   {
-    title: "Tickets Event",
+    title: "Ticket Events",
     description:
-      "Organizers set their own prices for gate tickets, allowing attendees to access the event and its perks. Examples include Concerts, Dinner or House parties, Tech events, etc.",
+      "Organizers set their own prices for gate tickets, allowing attendees to access the event and its perks. Examples include Concerts, Shows, Conferences, Exibitions, Tech events, etc.",
     icon: <FaTicketAlt className="text-purple-500 text-4xl" />, // Adjust styles as needed
     bg: "bg-purple-100",
   },
@@ -373,9 +373,9 @@ const EventLanding = () => {
             <div className="xl:w-7/12 lg:w-7/12 md:w-10/12 ">
               {" "}
               <p className="text-sm ">
-                We understand different event requires different management
-                approaches. That's why we carefully segment them into two major
-                categories based on client needs.
+                We understand different events require different management
+                approaches. That's why we have carefully segmented them into two
+                major categories based on needs.
               </p>
             </div>
           </div>
@@ -422,10 +422,9 @@ const EventLanding = () => {
             </div>
             <div className="xl:w-5/12 lg:w-6/12 md:w-10/12 xl:ml-auto">
               <p className="w-11/12 md:w-4/5 mx-auto md:mx-0">
-                We streamlined event management in 4 easy to understand
-                processes; everything from user selecting type to website
-                acquisition, attendee, gift or ticket management and wallet
-                withdrawals
+                We streamlined event management into 4 easy-to-understand
+                processes; everything from user-type selection, website-style,
+                attendee or ticket management to gift and wallet withdrawals.
               </p>
             </div>
           </div>
