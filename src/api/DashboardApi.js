@@ -923,6 +923,86 @@ const creatorGetAllGift = async ({
     }
   }
 };
+const creatorGiftAndTicketOverview = async ({
+  ecosystemDomain,
+  accessToken,
+  refreshToken,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.get(
+      `${PLAIN_API_URL}/dashboard-overview/${ecosystemDomain}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      // Navigate to login page on token expiration
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error fetching overview datas");
+    }
+  }
+};
+const creatorAttendeeActivity = async ({
+  ecosystemDomain,
+  accessToken,
+  refreshToken,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.get(
+      `${PLAIN_API_URL}/recent-attendee-activity/${ecosystemDomain}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      // Navigate to login page on token expiration
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error fetching Attendees Activities");
+    }
+  }
+};
+const creatorGiftHistory = async ({
+  ecosystemDomain,
+  accessToken,
+  refreshToken,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.get(
+      `${PLAIN_API_URL}/gift-history/${ecosystemDomain}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      // Navigate to login page on token expiration
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error fetching Gift Histories");
+    }
+  }
+};
+const creatorGiftOverview = async ({
+  ecosystemDomain,
+  accessToken,
+  refreshToken,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.get(
+      `${PLAIN_API_URL}/gift-overview/${ecosystemDomain}`
+    );
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      // Navigate to login page on token expiration
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error fetching Gift Overviews");
+    }
+  }
+};
 
 const creatorCreateGift = async ({
   accessToken,
@@ -1047,4 +1127,8 @@ export default {
   creatorWebsiteDetails,
   creatorNotification,
   creatorMarkAsReadNotification,
+  creatorGiftAndTicketOverview,
+  creatorAttendeeActivity,
+  creatorGiftHistory, 
+  creatorGiftOverview
 };

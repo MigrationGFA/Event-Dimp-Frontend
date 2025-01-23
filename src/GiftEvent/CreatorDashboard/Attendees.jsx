@@ -15,7 +15,7 @@ const Attendees = () => {
           Attendees
         </Heading>
         <Text className="font-medium  text-primary4">
-          You have 10 newly registered attendees
+          You have newly registered attendees
         </Text>
 
         <img
