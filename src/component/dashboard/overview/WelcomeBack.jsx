@@ -10,7 +10,6 @@ import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { showToast } from "../../ShowToast";
 
 const Welcome = ({ overviewDetails }) => {
-  console.log(overviewDetails);
   const navigate = useNavigate();
   const name = useSelector((state) => state.auth.user);
   const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);

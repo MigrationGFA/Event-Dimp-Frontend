@@ -4,15 +4,17 @@ import { ButtonSmallPurple, ButtonSmallWhite } from "../../Buttons";
 import { LongInputWithPlaceholder } from "../../Inputs";
 import { useSelector } from "react-redux";
 import api from "../../../api/DashboardApi";
+import { showToast } from "../../ShowToast";
 
 const AttendeeManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAttendee, setSelectedAttendee] = useState(null);
+  const [attendees, setAttendees] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
   const ecosystemType = useSelector((state) => state.ecosystemType.type);
   const { accessToken, refreshToken } = useSelector((state) => state.auth);
-  const [attendees, setAttendees] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getAllAttendees();
@@ -28,7 +30,8 @@ const AttendeeManagement = () => {
       });
       setAttendees(response.data.attendees || []);
     } catch (error) {
-      console.log("Error fetching attendees:", error);
+      console.error("Error fetching attendees:", error);
+      showToast("Failed to fetch attendees. Please try again.", "error");
     } finally {
       setLoading(false);
     }
@@ -39,16 +42,44 @@ const AttendeeManagement = () => {
     setIsModalOpen(true);
   };
 
+  const handleInputChange = (field, value) => {
+    setSelectedAttendee((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedAttendee) return;
+    setLoading(true);
+
+    try {
+      await api.creatorUpdateAttendees({
+        accessToken,
+        refreshToken,
+        seat: selectedAttendee.seat,
+        table: selectedAttendee.table,
+        fullName: selectedAttendee.fullName,
+        attendeeId: selectedAttendee._id,
+        status: selectedAttendee.status,
+      });
+      showToast("Attendee updated successfully!", "success");
+      getAllAttendees(); // Refresh the attendee list
+    } catch (error) {
+      console.error("Error updating attendee:", error);
+      showToast(error.message || "Failed to update attendee. Please try again.", "error");
+    } finally {
+      setLoading(false);
+      closeModal();
+    }
+  };
+
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedAttendee(null);
   };
 
-  // Function to generate custom ID
   const generateCustomID = (index) => {
     const prefix = "ATM";
     const suffix = "TN";
-    const paddedIndex = String(index + 1).padStart(3, "0"); // Pads the number to 3 digits
+    const paddedIndex = String(index + 1).padStart(3, "0");
     return `${prefix}${paddedIndex}${suffix}`;
   };
 
@@ -64,6 +95,7 @@ const AttendeeManagement = () => {
           className="lg:w-4/12 mb-4 p-2 border rounded-lg"
         />
       </div>
+
       <div className="overflow-auto">
         {loading ? (
           <p className="text-center py-5">Loading attendees...</p>
@@ -71,41 +103,36 @@ const AttendeeManagement = () => {
           <table className="min-w-full text-left">
             <thead>
               <tr className="border-b">
-                <th className="px-4 text-nowrap">ID</th>
-                <th className="px-4 text-nowrap">Name</th>
-                <th className="px-4 text-nowrap">Amount</th>
-                <th className="px-4 text-nowrap">Messages</th>
-                <th className="px-4 text-nowrap">Table No</th>
-                <th className="px-4 text-nowrap">Seat No</th>
-                <th className="px-4 text-nowrap">Status</th>
-                {ecosystemType === "Gift" && (
-                  <th className="px-4 text-nowrap">Actions</th>
-                )}
+                <th className="px-4">ID</th>
+                <th className="px-4">Name</th>
+                <th className="px-4">Amount</th>
+                <th className="px-4">Messages</th>
+                <th className="px-4">Table No</th>
+                <th className="px-4">Seat No</th>
+                <th className="px-4">Status</th>
+                {ecosystemType === "Gift" && <th className="px-4">Actions</th>}
               </tr>
             </thead>
             <tbody>
               {attendees.map((attendee, index) => (
-                <tr key={index} className="border-b">
+                <tr key={attendee._id} className="border-b">
                   <td className="py-2">{generateCustomID(index)}</td>
                   <td className="py-2">{attendee.fullName}</td>
                   <td className="py-2">{attendee.amountPaid}</td>
                   <td className="py-2">{attendee.message}</td>
                   <td className="py-2">{attendee.table}</td>
                   <td className="py-2">{attendee.seat}</td>
-                  <td className="py-2">
-                    <span className="px-2 py-1 rounded">{attendee.status}</span>
-                  </td>
-                  <td className="py-2">
-                    {/* Conditionally render the Update button */}
-                    {ecosystemType === "Gift" && (
+                  <td className="py-2">{attendee.status}</td>
+                  {ecosystemType === "Gift" && (
+                    <td className="py-2">
                       <button
                         className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition"
                         onClick={() => handleUpdateClick(attendee)}
                       >
                         Update
                       </button>
-                    )}
-                  </td>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -115,12 +142,10 @@ const AttendeeManagement = () => {
         )}
       </div>
 
-      {/* Modal */}
-      {isModalOpen && (
+      {isModalOpen && selectedAttendee && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-          <div className="bg-white rounded-lg p-6 lg:h-[90%] lg:w-[700px] w-[90%] max-w-[700px] overflow-y-auto">
-            {/* Header */}
-            <div className="flex justify-between items-center mb-4 ">
+          <div className="bg-white rounded-lg p-6 w-full max-w-lg">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">
                 Update Attendee Information
               </h2>
@@ -132,13 +157,13 @@ const AttendeeManagement = () => {
               </button>
             </div>
 
-            {/* Form */}
             <form>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">Name</label>
                 <LongInputWithPlaceholder
                   type="text"
-                  defaultValue={selectedAttendee?.fullName}
+                  value={selectedAttendee.fullName}
+                  onChange={(e) => handleInputChange("fullName", e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -149,7 +174,8 @@ const AttendeeManagement = () => {
                 </label>
                 <LongInputWithPlaceholder
                   type="text"
-                  defaultValue={selectedAttendee?.table}
+                  value={selectedAttendee.table}
+                  onChange={(e) => handleInputChange("table", e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -160,7 +186,8 @@ const AttendeeManagement = () => {
                 </label>
                 <LongInputWithPlaceholder
                   type="text"
-                  defaultValue={selectedAttendee?.seat}
+                  value={selectedAttendee.seat}
+                  onChange={(e) => handleInputChange("seat", e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -170,15 +197,18 @@ const AttendeeManagement = () => {
                   Attendance Status
                 </label>
                 <select
-                  defaultValue={selectedAttendee?.status}
+                  value={selectedAttendee.status}
+                  onChange={(e) =>
+                    handleInputChange("status", e.target.value)
+                  }
                   className="w-full p-2 border border-gray-300 rounded-lg"
                 >
+                  <option value="">Select status</option>
                   <option value="Allowed">Allowed</option>
                   <option value="Rejected">Rejected</option>
                 </select>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex justify-end space-x-2">
                 <ButtonSmallWhite
                   className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition"
@@ -186,8 +216,11 @@ const AttendeeManagement = () => {
                 >
                   Discard
                 </ButtonSmallWhite>
-                {ecosystemType === "Gifts" && (
-                  <ButtonSmallPurple className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
+                {ecosystemType === "Gift" && (
+                  <ButtonSmallPurple
+                    className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
+                    onClick={handleSubmit}
+                  >
                     Update
                   </ButtonSmallPurple>
                 )}

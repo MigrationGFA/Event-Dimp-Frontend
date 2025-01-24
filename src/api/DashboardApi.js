@@ -939,7 +939,9 @@ const creatorGiftAndTicketOverview = async ({
       // Navigate to login page on token expiration
       navigate("/auth/login");
     } else {
-      throw new Error(error.response?.data?.message || "Error fetching overview datas");
+      throw new Error(
+        error.response?.data?.message || "Error fetching overview datas"
+      );
     }
   }
 };
@@ -959,7 +961,9 @@ const creatorAttendeeActivity = async ({
       // Navigate to login page on token expiration
       navigate("/auth/login");
     } else {
-      throw new Error(error.response?.data?.message || "Error fetching Attendees Activities");
+      throw new Error(
+        error.response?.data?.message || "Error fetching Attendees Activities"
+      );
     }
   }
 };
@@ -979,7 +983,9 @@ const creatorGiftHistory = async ({
       // Navigate to login page on token expiration
       navigate("/auth/login");
     } else {
-      throw new Error(error.response?.data?.message || "Error fetching Gift Histories");
+      throw new Error(
+        error.response?.data?.message || "Error fetching Gift Histories"
+      );
     }
   }
 };
@@ -999,7 +1005,9 @@ const creatorGiftOverview = async ({
       // Navigate to login page on token expiration
       navigate("/auth/login");
     } else {
-      throw new Error(error.response?.data?.message || "Error fetching Gift Overviews");
+      throw new Error(
+        error.response?.data?.message || "Error fetching Gift Overviews"
+      );
     }
   }
 };
@@ -1084,12 +1092,43 @@ const creatorDeleteWebsite = async ({
     if (error.isTokenExpired) {
       navigate("/auth/login");
     } else {
-      throw new Error(error.response?.data?.message || "Error Deleting Ecosystem");
+      throw new Error(
+        error.response?.data?.message || "Error Deleting Ecosystem"
+      );
+    }
+  }
+};
+
+const creatorUpdateAttendees = async ({
+  accessToken,
+  refreshToken,
+  fullName,
+  seat,
+  table,
+  status,
+  attendeeId,
+}) => {
+  const authFetch = AxiosInterceptor(accessToken, refreshToken);
+  try {
+    const response = await authFetch.put(`${PLAIN_API_URL}/edit-attendee`, {
+      fullName,
+      seat,
+      table,
+      status,
+      attendeeId
+    });
+    return response;
+  } catch (error) {
+    if (error.isTokenExpired) {
+      navigate("/auth/login");
+    } else {
+      throw new Error(error.response?.data?.message || "Error Editing Ticket");
     }
   }
 };
 
 export default {
+  creatorUpdateAttendees,
   creatorDeleteWebsite,
   creatorEditGift,
   creatorCreateGift,
@@ -1129,6 +1168,6 @@ export default {
   creatorMarkAsReadNotification,
   creatorGiftAndTicketOverview,
   creatorAttendeeActivity,
-  creatorGiftHistory, 
-  creatorGiftOverview
+  creatorGiftHistory,
+  creatorGiftOverview,
 };

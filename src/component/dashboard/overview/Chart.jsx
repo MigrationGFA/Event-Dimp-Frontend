@@ -6,15 +6,15 @@ const Charts = ({ overviewDetails }) => {
   const ecosystemType = useSelector((state) => state.ecosystemType.type);
 
   // Extracting data from overviewDetails
-  const totalMonthlyIncome = overviewDetails.totalGifts || overviewDetails.totalAttendees || 0;
+  const totalMonthlyIncome = overviewDetails.giftsPerWeek?.totalGiftsThisMonth || overviewDetails.ticketsPerWeek?.totalTicketsThisMonth || 0;
 
   // Safely accessing tickets per week with default values
   const weeklyIncome = {
-    "Week 1": overviewDetails.ticketsPerWeek?.["Week 1"] || overviewDetails.giftsPerWeek?.["Week 1"] || 0,
-    "Week 2": overviewDetails.ticketsPerWeek?.["Week 2"] || overviewDetails.giftsPerWeek?.["Week 2"] || 0,
-    "Week 3": overviewDetails.ticketsPerWeek?.["Week 3"] || overviewDetails.giftsPerWeek?.["Week 3"] || 0,
-    "Week 4": overviewDetails.ticketsPerWeek?.["Week 4"] || overviewDetails.giftsPerWeek?.["Week 4"] || 0,
-    "Week 5": 0, // Assuming no data for Week 5
+    "Week 1": overviewDetails.ticketsPerWeek?.ticketsPerWeek?.["Week 1"] || overviewDetails.giftsPerWeek?.giftsPerWeek["Week 1"] || 0,
+    "Week 2": overviewDetails.ticketsPerWeek?.ticketsPerWeek?.["Week 2"] || overviewDetails.giftsPerWeek?.giftsPerWeek["Week 2"] || 0,
+    "Week 3": overviewDetails.ticketsPerWeek?.ticketsPerWeek?.["Week 3"] || overviewDetails.giftsPerWeek?.giftsPerWeek["Week 3"] || 0,
+    "Week 4": overviewDetails.ticketsPerWeek?.ticketsPerWeek?.["Week 4"] || overviewDetails.giftsPerWeek?.giftsPerWeek["Week 4"] || 0,
+    "Week 5": overviewDetails.ticketsPerWeek?.ticketsPerWeek?.["Week 5"] || overviewDetails.giftsPerWeek?.giftsPerWeek["Week 5"] || 0, 
   };
 
   const totalMonthlyBookings = overviewDetails.totalAttendees || 0;
@@ -23,6 +23,7 @@ const Charts = ({ overviewDetails }) => {
     { week: "Week 2", totalBookings: overviewDetails.attendeesThisMonth?.["Week 2"] || 0 },
     { week: "Week 3", totalBookings: overviewDetails.attendeesThisMonth?.["Week 3"] || 0 },
     { week: "Week 4", totalBookings: overviewDetails.attendeesThisMonth?.["Week 4"] || 0 },
+    { week: "Week 5", totalBookings: overviewDetails.attendeesThisMonth?.["Week 5"] || 0 },
   ];
 
   // Pie Chart Data
@@ -37,8 +38,12 @@ const Charts = ({ overviewDetails }) => {
     colors: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"],
     legend: { show: false, position: "bottom" },
     title: {
+      text: `${overviewDetails.attendeesThisMonth?.currentMonthName ||  ""} Attendees Metrics`,
       align: "center",
-      style: { fontSize: "12px", fontWeight: "bold" },
+      style: {
+        fontSize: "12px",
+        fontWeight: "bold",
+      },
     },
     plotOptions: {
       pie: {
@@ -70,6 +75,21 @@ const Charts = ({ overviewDetails }) => {
       toolbar: { show: false },
       zoom: { enabled: false },
     },
+    title: {
+      text: 
+        overviewDetails?.giftsPerWeek?.currentMonthName 
+        ? `${overviewDetails.giftsPerWeek.currentMonthName} Gifts Received` 
+        : overviewDetails?.ticketsPerWeek?.currentMonthName 
+        ? `${overviewDetails.ticketsPerWeek.currentMonthName} Tickets Sold` 
+        : "",
+      align: "center",
+      style: {
+        fontSize: "12px",
+        fontWeight: "bold",
+      },
+    },
+    
+    
     responsive: [
       {
         breakpoint: 480,

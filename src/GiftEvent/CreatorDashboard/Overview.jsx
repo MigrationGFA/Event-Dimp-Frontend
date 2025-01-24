@@ -27,7 +27,6 @@ const Overview = () => {
         refreshToken,
         accessToken,
       });
-      console.log(response.data);
       setOverviewDetails(response.data);
     } catch (error) {
       console.log(error);
