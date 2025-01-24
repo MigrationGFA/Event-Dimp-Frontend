@@ -31,7 +31,7 @@ const AttendeeManagement = () => {
       setAttendees(response.data.attendees || []);
     } catch (error) {
       console.error("Error fetching attendees:", error);
-      showToast("Failed to fetch attendees. Please try again.", "error");
+     
     } finally {
       setLoading(false);
     }
