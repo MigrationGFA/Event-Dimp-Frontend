@@ -1,6 +1,7 @@
 import axios from "axios";
 import api from "../api/authApis";
 
+
 // const AxiosInterceptor = (accessToken, refreshToken) => {
 //   const authFetch = axios.create({
 //     withCredentials: true,
@@ -171,6 +172,7 @@ function addSubscriber(callback) {
 }
 
 const AxiosInterceptor = (accessToken, refreshToken, dispatch, navigate) => {
+
   const authFetch = axios.create({
     withCredentials: true,
   });

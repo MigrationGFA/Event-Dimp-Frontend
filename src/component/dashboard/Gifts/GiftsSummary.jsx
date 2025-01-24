@@ -3,64 +3,37 @@ import Chart from "react-apexcharts";
 import GiftIcon from "../../../assets/GiftIcon.svg";
 import { Heading } from "../../Text";
 
-const GiftsSummary = () => {
-  const giftsToday = 50;
-  const totalGifts = 100;
+const GiftsSummary = ({giftOverview }) => {
+  
 
-  const completedGifts = {
-    monday: 10,
-    tuesday: 8,
-    wednesday: 6,
-    thursday: 7,
-    friday: 5,
-    saturday: 4,
-    sunday: 0,
-    total: 40,
-  };
+  const { giftsToday, giftsThisWeek, totalGifts } = giftOverview;
 
-  const pendingGifts = {
-    monday: 2,
-    tuesday: 3,
-    wednesday: 2,
-    thursday: 1,
-    friday: 1,
-    saturday: 1,
-    sunday: 0,
-    total: 10,
-  };
+  // Gifts Today data
+  const giftsTodayTotal = giftsToday?.total || 0;
+  const giftsTodayCompleted = giftsToday?.paid || 0;
+  const giftsTodayPending = giftsToday?.pending || 0;
+
+  // Gifts This Week data
+  const giftsThisWeekTotal = giftsThisWeek?.[0]?.total || 0;
 
   const giftsTodayOptions = {
     chart: {
       type: "radialBar",
       offsetY: 10,
-      sparkline: {
-        enabled: true,
-      },
+      sparkline: { enabled: true },
     },
     colors: ["#4CAF50"],
     plotOptions: {
       radialBar: {
-        hollow: {
-          margin: 10,
-          size: "50%",
-        },
-        dataLabels: {
-          show: false,
-        },
+        hollow: { margin: 10, size: "50%" },
+        dataLabels: { show: false },
       },
     },
-    fill: {
-      colors: ["#4CAF50"],
-    },
-    stroke: {
-      lineCap: "round",
-    },
+    fill: { colors: ["#4CAF50"] },
+    stroke: { lineCap: "round" },
   };
 
-  const giftsTodaySeries = [giftsToday]; // Total gifts today
-
-  // Abbreviate day names
-  const abbreviatedDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const giftsTodaySeries = [giftsTodayTotal];
 
   const giftsThisWeekOptions = {
     chart: {
@@ -69,10 +42,7 @@ const GiftsSummary = () => {
       toolbar: { show: false },
     },
     plotOptions: {
-      bar: {
-        columnWidth: "50%",
-        distributed: true,
-      },
+      bar: { columnWidth: "50%", distributed: true },
     },
     colors: [
       "#00BFFF",
@@ -84,15 +54,11 @@ const GiftsSummary = () => {
       "#7FFF00",
     ],
     xaxis: {
-      categories: abbreviatedDays,
-      labels: {
-        style: { fontSize: "12px", fontWeight: 600 },
-      },
+      categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], // Static for now
+      labels: { style: { fontSize: "12px", fontWeight: 600 } },
     },
     yaxis: {
-      labels: {
-        formatter: (val) => `${val}`,
-      },
+      labels: { formatter: (val) => `${val}` },
     },
     grid: { show: true },
     legend: { show: false },
@@ -101,15 +67,7 @@ const GiftsSummary = () => {
   const giftsThisWeekSeries = [
     {
       name: "Gifts",
-      data: [
-        completedGifts.monday + pendingGifts.monday,
-        completedGifts.tuesday + pendingGifts.tuesday,
-        completedGifts.wednesday + pendingGifts.wednesday,
-        completedGifts.thursday + pendingGifts.thursday,
-        completedGifts.friday + pendingGifts.friday,
-        completedGifts.saturday + pendingGifts.saturday,
-        completedGifts.sunday + pendingGifts.sunday,
-      ],
+      data: giftsThisWeek?.map((day) => day.total || 0), // Use dynamic data if available
     },
   ];
 
@@ -126,12 +84,12 @@ const GiftsSummary = () => {
           </Heading>
           <div className="mt-2 space-y-1">
             <span className="text-sm text-gray-500 flex items-center space-x-1">
-              <span>{completedGifts.total}</span>
+              <span>{giftsTodayCompleted}</span>
               <div className="bg-green-500 w-4 h-4 rounded-sm"></div>
               <span>Completed</span>
             </span>
             <span className="text-sm text-gray-500 flex items-center space-x-1">
-              <span>{pendingGifts.total}</span>
+              <span>{giftsTodayPending}</span>
               <div className="bg-yellow-500 w-4 h-4 rounded-sm"></div>
               <span>Pending</span>
             </span>
@@ -146,20 +104,20 @@ const GiftsSummary = () => {
               height={150}
             />
             <span className="text-3xl font-bold absolute inset-0 flex items-center justify-center">
-              {giftsToday}
+              {giftsTodayTotal}
             </span>
           </div>
         </div>
       </div>
 
       {/* Gifts This Week */}
-      <div className="bg-white shadow-lg rounded-lg p-5 grid grid-cols-1 md:grid-cols-2 ">
+      <div className="bg-white shadow-lg rounded-lg p-5 grid grid-cols-1 md:grid-cols-2">
         <div className="items-center justify-between mb-4 space-x-1 space-y-4">
           <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-[#F5F5F5]">
             <img src={GiftIcon} alt="Gift Icon" className="w-10 h-10" />
           </div>
-          <Heading level={1} className="text-2xl font-semibold mt-5 ">
-            76 Gifts This Week
+          <Heading level={1} className="text-2xl font-semibold mt-5">
+            {giftsThisWeekTotal} Gifts This Week
           </Heading>
         </div>
         <Chart
@@ -170,6 +128,7 @@ const GiftsSummary = () => {
         />
       </div>
 
+      {/* Total Gifts */}
       <div className="bg-white shadow-lg rounded-lg p-5 flex items-center justify-between">
         <div className="items-center mb-2 space-x-1 justify-between h-full">
           <div className="w-14 h-14 flex items-center justify-center rounded-xl mt-1 bg-[#F5F5F5]">
@@ -179,7 +138,6 @@ const GiftsSummary = () => {
             Total Gifts
           </Heading>
         </div>
-
         <div className="relative flex items-center justify-center">
           <div className="w-24 h-24 border-[8px] border-gray-300 rounded-full flex items-center justify-center">
             <span className="text-2xl font-bold">{totalGifts}</span>

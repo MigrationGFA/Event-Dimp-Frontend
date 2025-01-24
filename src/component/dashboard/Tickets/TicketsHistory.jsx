@@ -151,8 +151,8 @@ const TicketsHistory = ({ ticketsPurchase }) => {
                     <div>Phone: {ticket.phoneNumber || "N/A"}</div>
                     <div>Description: {ticket.shortDescription || "N/A"}</div>
                   </td>
-                  <td className="py-3 px-4 text-nowrap">{ticket.ticketType || "N/A"}</td>
-                  <td className="py-3 px-4 text-nowrap">{ticket.amount || "N/A"}</td>
+                  <td className="py-3 px-4 text-nowrap">{ticket.ticketId.ticketType || "N/A"}</td>
+                  <td className="py-3 px-4 text-nowrap">{ticket.ticketId.price || "N/A"}</td>
                   <td className="py-3 px-4 text-nowrap">
                     {new Date(ticket.date).toLocaleDateString()}
                   </td>

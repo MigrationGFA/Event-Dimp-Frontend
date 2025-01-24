@@ -9,12 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { showToast } from "../../ShowToast";
 
-const Welcome = ({ earnings, bookingDetails }) => {
+const Welcome = ({ overviewDetails }) => {
   const navigate = useNavigate();
   const name = useSelector((state) => state.auth.user);
   const ecosystemDomain = useSelector((state) => state.ecosystemDomain.domain);
   const ecosystemType = useSelector((state) => state.ecosystemType.type);
-
 
   const link = `https://${ecosystemDomain}.dimpified.com.ng`;
 
@@ -40,10 +39,7 @@ const Welcome = ({ earnings, bookingDetails }) => {
         <div className="lg:flex gap-2 mb-10">
           <div className="bg-primary8 rounded-full w-8 h-8">
             <img
-              src={
-                userImage ? userImage :
-                Avatar
-              }
+              src={userImage ? userImage : Avatar}
               alt="user image"
               className="rounded-full"
             />
@@ -88,7 +84,9 @@ const Welcome = ({ earnings, bookingDetails }) => {
                 className="font-Outfit"
                 color="black"
               >
-                ₦ {earnings?.totalEarnings?.Naira || 0.0}
+                {ecosystemType === "Gift"
+                  ? overviewDetails?.giftsToday || 0.0
+                  : `₦ ${overviewDetails?.ticketsToday || 0.0}`}
               </Heading>
               <div className="lg:flex items-center">
                 <Text size="xs" color="gray-500">
@@ -106,7 +104,7 @@ const Welcome = ({ earnings, bookingDetails }) => {
                 className="font-Outfit"
                 color="black"
               >
-                {bookingDetails?.todayBookings.length || 0}
+                {overviewDetails?.totalAttendees ||  overviewDetails?.giftsToday || 0}
               </Heading>
               <Text size="xs" color="gray-500">
                 Registered People
@@ -116,9 +114,8 @@ const Welcome = ({ earnings, bookingDetails }) => {
 
           {/* Button */}
           <button
-          onClick={handleCreateNewWebsite}
+            onClick={handleCreateNewWebsite}
             className="self-center bg-primary3 mt-5 mb-10 lg:mb-0 lg:mt-0 shadow-xl px-4 ml-4 rounded-lg text-primary1 py-2 text-sm"
-            
           >
             Create New Website
           </button>
